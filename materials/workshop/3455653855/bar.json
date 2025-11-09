@@ -1,0 +1,41 @@
+{
+	"passes" : 
+	[
+		{
+			"alphawriting" : "default",
+			"blending" : "translucent",
+			"combos" : 
+			{
+				"version" : 2
+			},
+			"constantshadervalues" : 
+			{
+				"Alpha" : 1,
+				"color" : 
+				{
+					"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3455653855';\n// Please note: Do not remove this line or asset references may break.\n// Please note: Do not remove this line or asset references may break.\n// Please note: Do not remove this line or asset references may break.\n\nimport * as WEColor from 'WEColor';\n\nexport var scriptProperties = createScriptProperties()\n\t.addCheckbox({\n\t\tname: 'audioRainboweffect',\n\t\tlabel: 'Audio Rainbow Effect',\n\t\tvalue: true\n\t})\n\t.addCheckbox({\n\t\tname: 'rainbowEffect',\n\t\tlabel: 'Rainbow Effect',\n\t\tvalue: false\n\t})\n\t.addSlider({\n\t\tname: 'rainbowSpeed',\n\t\tlabel: 'Rainbow Speed',\n\t\tvalue: 1,\n\t\tmin: 0.1,\n\t\tmax: 5,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'rainbowSaturation',\n\t\tlabel: 'Rainbow Saturation',\n\t\tvalue: 1,\n\t\tmin: 0.1,\n\t\tmax: 10,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'rainbowBrightness',\n\t\tlabel: 'Rainbow Brightness',\n\t\tvalue: 1,\n\t\tmin: 0.1,\n\t\tmax: 10,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'audioSourcefrequency',\n\t\tlabel: 'Audio Source Frequency (Lower values for bass, higher for treble.) ',\n\t\tvalue: 0,\n\t\tmin: 0,\n\t\tmax: 15,\n\t\tinteger: true\n\t})\n\t.finish();\n\n//let rainbowSpeed = 1;\n//let rainbowSaturation = 1;\n//let rainbowBrightness = 1;\nlet frequencyResolution = 16; // Must be 16, 32 or 64 per channel.\n//let sourceFrequency = 0; // Must be smaller than frequencyResolution. Lower values for bass, higher for treble.\nlet smoothingRate = 11;\nlet audioBuffer = engine.registerAudioBuffers(frequencyResolution);\nvar smoothValue = 0;\n\n\n/**\n * @param {Vec3} value\n */\nexport function update(value) {\n\tif (scriptProperties.rainbowEffect == true) {\n\tvalue = WEColor.hsv2rgb({\n\t\tx: Date.now() / 2000 * scriptProperties.rainbowSpeed % 1,\n\t\ty: scriptProperties.rainbowSaturation,\n\t\tz: scriptProperties.rainbowBrightness\n\t});\n}\nlet audioDelta = audioBuffer.average[scriptProperties.audioSourcefrequency] - smoothValue;\n\tif (scriptProperties.audioRainboweffect == true) {\n\tsmoothValue += audioDelta * engine.frametime * smoothingRate;\n\tsmoothValue = Math.min(1.0, smoothValue);\n\tvalue = WEColor.hsv2rgb({\n\t\tx: smoothValue,\n\t\ty: scriptProperties.rainbowSaturation,\n\t\tz: scriptProperties.rainbowBrightness\n\t});\n\t}\n\treturn value;\n}\n",
+					"scriptproperties" : 
+					{
+						"audioRainboweffect" : false,
+						"audioSourcefrequency" : 0,
+						"rainbowBrightness" : 1,
+						"rainbowEffect" : 
+						{
+							"user" : "grb",
+							"value" : true
+						},
+						"rainbowSaturation" : 1,
+						"rainbowSpeed" : 0.5
+					},
+					"user" : "color",
+					"value" : "1.00000 1.00000 1.00000"
+				}
+			},
+			"cullmode" : "nocull",
+			"depthtest" : "disabled",
+			"depthwrite" : "disabled",
+			"shader" : "workshop/3455653855/tint",
+			"textures" : [ "workshop/3455653855/bar" ]
+		}
+	]
+}

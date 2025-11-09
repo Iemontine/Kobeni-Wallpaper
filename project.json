@@ -1,0 +1,21 @@
+{
+	"file" : "scene.json",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"schemecolor" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "1 1 1"
+			}
+		},
+		"supportsaudioprocessing" : true
+	},
+	"title" : "kobeni",
+	"type" : "scene",
+	"version" : 0
+}

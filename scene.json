@@ -1,0 +1,235 @@
+{
+	"camera" : 
+	{
+		"center" : "233.36795 232.58656 0.00000",
+		"eye" : "233.36795 232.58656 1.00000",
+		"up" : "0.00000 1.00000 0.00000"
+	},
+	"general" : 
+	{
+		"ambientcolor" : "0.30000 0.30000 0.30000",
+		"bloom" : false,
+		"bloomhdrfeather" : 0.1,
+		"bloomhdriterations" : 8,
+		"bloomhdrscatter" : 1.619,
+		"bloomhdrstrength" : 2.0,
+		"bloomhdrthreshold" : 1.0,
+		"bloomstrength" : 2.0,
+		"bloomthreshold" : 0.64999998,
+		"bloomtint" : "1.00000 1.00000 1.00000",
+		"camerafade" : true,
+		"cameraparallax" : true,
+		"cameraparallaxamount" : -0.02,
+		"cameraparallaxdelay" : 0.1,
+		"cameraparallaxmouseinfluence" : 0.5,
+		"camerapreview" : true,
+		"camerashake" : false,
+		"camerashakeamplitude" : 0.5,
+		"camerashakeroughness" : 1.0,
+		"camerashakespeed" : 3.0,
+		"clearcolor" : "0.70000 0.70000 0.70000",
+		"clearenabled" : true,
+		"farz" : 10000.0,
+		"fov" : 50.0,
+		"gravitydirection" : "0.00000 -1.00000 0.00000",
+		"gravitystrength" : 1.0,
+		"hdr" : false,
+		"nearz" : 0.0099999998,
+		"orthogonalprojection" : 
+		{
+			"height" : 2044,
+			"width" : 4288
+		},
+		"perspectiveoverridefov" : 90.0,
+		"skylightcolor" : "0.30000 0.30000 0.30000",
+		"winddirection" : "0.70700 0.70700 0.00000",
+		"windenabled" : false,
+		"windstrength" : 1.0,
+		"zoom" : 1.0
+	},
+	"objects" : 
+	[
+		{
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"id" : 33,
+			"image" : "models/under kobeni.json",
+			"name" : "under kobeni",
+			"origin" : "2144.00000 1022.00000 0.00000",
+			"parallaxDepth" : "-1.00000 -1.00000",
+			"perspective" : true,
+			"scale" : "1.04678 1.03642 1.03642",
+			"size" : "4288.00000 2044.00000"
+		},
+		{
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"effects" : 
+			[
+				{
+					"file" : "effects/workshop/2084198056/Simple_Audio_Bars/effect.json",
+					"id" : 267,
+					"name" : "Audio Bars",
+					"passes" : 
+					[
+						{
+							"combos" : 
+							{
+								"RESOLUTION" : 64
+							},
+							"constantshadervalues" : 
+							{
+								"Bar Color" : "1.00000 1.00000 1.00000",
+								"Bar Count" : 200,
+								"Bar Spacing" : 0.63,
+								"Lower/Upper Bar Bounds" : "0 0.8",
+								"ui_editor_properties_opacity" : 1.0
+							},
+							"id" : 268
+						}
+					],
+					"visible" : true
+				},
+				{
+					"file" : "effects/shine/effect.json",
+					"id" : 70,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"noiseamount" : 1,
+								"noisescale" : 2.4000001,
+								"noisespeed" : 0.88,
+								"raythreshold" : 0.46000001
+							},
+							"id" : 71
+						},
+						{
+							"constantshadervalues" : 
+							{
+								"color" : "1 1 1",
+								"direction" : 0.0,
+								"rayintensity" : 0.46000001,
+								"raylength" : 0.1,
+								"speed" : 0.0
+							},
+							"id" : 72
+						},
+						{
+							"constantshadervalues" : 
+							{
+								"scale" : "1 1"
+							},
+							"id" : 73
+						},
+						{
+							"combos" : 
+							{
+								"VERTICAL" : 1
+							},
+							"constantshadervalues" : 
+							{
+								"scale" : "1 1"
+							},
+							"id" : 74
+						},
+						{
+							"id" : 75
+						}
+					],
+					"visible" : true
+				}
+			],
+			"id" : 264,
+			"image" : "models/util/solidlayer.json",
+			"name" : "Audio Visualizer",
+			"origin" : "2148.60474 1602.94580 0.00000",
+			"parallaxDepth" : "1.80000 1.80000",
+			"size" : "4288.00000 501.00000"
+		},
+		{
+			"anchor" : "none",
+			"backgroundbrightness" : 1.0,
+			"backgroundcolor" : "0.00000 0.00000 0.00000",
+			"blockalign" : false,
+			"castshadow" : false,
+			"clampuvs" : true,
+			"color" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n// Secondary color of the Media Cover\nvar newColor;\n\nvar window = {};\n\nexport var scriptProperties = createScriptProperties()\n    .addCheckbox({\n        name: 'dynamicTitle',\n        label: 'Dynamic Title',\n        value: false\n    })\n    .addColor({\n        name: 'titleColor',\n        label: 'Title Color',\n        value: (window.wallpaperPropertiesListener = {\n                    applyUserProperties: function(properties) {\n                    properties.titlecolor;\n                    }\n                })\n    })\n    .finish();\n\n\n/**\n * @param {Vec3} value - for property 'color'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n    if (scriptProperties.dynamicTitle == true) {\n        value = new Vec3(newColor);\n    } else {\n        // Changes color based on property 'Title Color'\n        value = new Vec3(scriptProperties.titleColor);\n    }\n    return value;\n}\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n    if (event.hasThumbnail == true) {\n        newColor = event.secondaryColor;\n    }\n}\n",
+				"scriptproperties" : 
+				{
+					"dynamicTitle" : false,
+					"titleColor" : 
+					{
+						"user" : "schemecolor",
+						"value" : 
+						{
+							"user" : "titlecolor",
+							"value" : "0.00000 0.00000 0.00000"
+						}
+					}
+				},
+				"user" : "titlecolor",
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"depthtest" : "enabled",
+			"disablepropagation" : false,
+			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
+			"horizontalalign" : "left",
+			"id" : 43,
+			"limitrows" : true,
+			"limituseellipsis" : true,
+			"limitwidth" : true,
+			"maxrows" : 1,
+			"maxwidth" : 1549.4924,
+			"name" : "Media Title",
+			"opaquebackground" : false,
+			"origin" : "2733.21265 1293.73340 0.00000",
+			"padding" : 32,
+			"parallaxDepth" : "1.80000 1.80000",
+			"pointsize" : 17.0,
+			"size" : "378.00000 81.00000",
+			"text" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\nvar mediaData = \"\";\n\n/**\n * @param {String} value - for property 'text'\n * @return {String} - update current property value\n */\nexport function update(value) {\n\treturn mediaData;\n}\n\n/**\n * @param {MediaPropertiesEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tmediaData = event.title;\n}\n",
+				"value" : "Song Title"
+			},
+			"verticalalign" : "center",
+			"visible" : 
+			{
+				"user" : "songtitle",
+				"value" : true
+			}
+		},
+		{
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"id" : 161,
+			"image" : "models/kobeni only.json",
+			"name" : "kobeni only",
+			"origin" : "1979.61328 957.65955 0.00000",
+			"parallaxDepth" : "0.50000 0.50000",
+			"perspective" : true,
+			"size" : "1604.00000 1921.00000"
+		},
+		{
+			"angles" : "0.00000 -0.00000 0.00000",
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"id" : 35,
+			"image" : "models/chair piece.json",
+			"name" : "chair piece",
+			"origin" : "2289.00000 930.50000 0.00000",
+			"parallaxDepth" : "0.80000 0.80000",
+			"size" : "314.00000 619.00000"
+		}
+	],
+	"version" : 5
+}
