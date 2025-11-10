@@ -1,8 +1,8 @@
 {
 	"camera" : 
 	{
-		"center" : "-90.59831 378.57404 -1.00000",
-		"eye" : "-90.59831 378.57404 0.00000",
+		"center" : "49.84819 141.94601 -1.00000",
+		"eye" : "49.84819 141.94601 0.00000",
 		"up" : "0.00000 1.00000 0.00000"
 	},
 	"general" : 
@@ -207,6 +207,41 @@
 			}
 		},
 		{
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"effects" : 
+			[
+				{
+					"file" : "effects/shake/effect.json",
+					"id" : 423,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"bounds" : "0 1",
+								"friction" : "1 1",
+								"speed" : 1.0,
+								"strength" : 0.1
+							},
+							"id" : 424,
+							"textures" : [ null, "masks/shake_mask_5355aef9" ]
+						}
+					],
+					"visible" : false
+				}
+			],
+			"id" : 47,
+			"image" : "models/kobeni character sheet.json",
+			"name" : "kobeni character sheet",
+			"origin" : "2019.00000 1023.00000 0.00000",
+			"parallaxDepth" : "0.50000 0.50000",
+			"perspective" : true,
+			"size" : "2848.00000 2042.00000"
+		},
+		{
 			"angles" : "0.00000 -0.00000 0.00000",
 			"castshadow" : false,
 			"clampuvs" : true,
@@ -217,17 +252,6 @@
 			"origin" : "2289.00000 930.50000 0.00000",
 			"parallaxDepth" : "0.80000 0.80000",
 			"size" : "314.00000 619.00000"
-		},
-		{
-			"castshadow" : false,
-			"clampuvs" : true,
-			"disablepropagation" : false,
-			"id" : 47,
-			"image" : "models/kobeni character sheet.json",
-			"name" : "kobeni character sheet",
-			"origin" : "2019.00000 1023.00000 0.00000",
-			"parallaxDepth" : "0.00000 0.00000",
-			"size" : "2848.00000 2042.00000"
 		}
 	],
 	"version" : 5
