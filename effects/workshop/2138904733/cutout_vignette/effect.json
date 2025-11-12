@@ -1,0 +1,19 @@
+{
+	"dependencies" : 
+	[
+		"materials/workshop/2138904733/effects/cutout_vignette.json",
+		"shaders/workshop/2138904733/effects/cutout_vignette.frag",
+		"shaders/workshop/2138904733/effects/cutout_vignette.vert"
+	],
+	"editable" : false,
+	"group" : "localeffects",
+	"name" : "Cutout Vignette",
+	"passes" : 
+	[
+		{
+			"material" : "materials/workshop/2138904733/effects/cutout_vignette.json"
+		}
+	],
+	"replacementkey" : "cutout_vignette",
+	"version" : 1
+}

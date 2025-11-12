@@ -1,0 +1,19 @@
+{
+	"dependencies" : 
+	[
+		"materials/workshop/2820522593/effects/fog.json",
+		"shaders/workshop/2820522593/effects/fog.frag",
+		"shaders/workshop/2820522593/effects/fog.vert"
+	],
+	"editable" : false,
+	"group" : "localeffects",
+	"name" : "Fog",
+	"passes" : 
+	[
+		{
+			"material" : "materials/workshop/2820522593/effects/fog.json"
+		}
+	],
+	"replacementkey" : "fog",
+	"version" : 1
+}

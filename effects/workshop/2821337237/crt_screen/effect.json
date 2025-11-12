@@ -1,0 +1,69 @@
+{
+	"dependencies" : 
+	[
+		"materials/workshop/2821337237/effects/shadow_map.json",
+		"shaders/workshop/2821337237/effects/shadow_map.frag",
+		"shaders/workshop/2821337237/effects/shadow_map.vert",
+		"materials/workshop/2821337237/effects/crt_screen.json",
+		"shaders/workshop/2821337237/effects/crt_screen.frag",
+		"shaders/workshop/2821337237/effects/crt_screen.vert"
+	],
+	"editable" : false,
+	"fbos" : 
+	[
+		{
+			"format" : "rgba_backbuffer",
+			"name" : "render_target",
+			"scale" : 1
+		}
+	],
+	"gizmos" : 
+	[
+		{
+			"condition" : 
+			{
+				"PERSPECTIVE" : 1
+			},
+			"type" : "EffectPerspectiveUV",
+			"vars" : 
+			{
+				"p0" : "point0",
+				"p1" : "point1",
+				"p2" : "point2",
+				"p3" : "point3"
+			}
+		}
+	],
+	"group" : "localeffects",
+	"name" : "CRT screen",
+	"passes" : 
+	[
+		{
+			"bind" : 
+			[
+				{
+					"index" : 0,
+					"name" : "previous"
+				}
+			],
+			"material" : "materials/workshop/2821337237/effects/shadow_map.json",
+			"target" : "render_target"
+		},
+		{
+			"bind" : 
+			[
+				{
+					"index" : 0,
+					"name" : "render_target"
+				},
+				{
+					"index" : 1,
+					"name" : "previous"
+				}
+			],
+			"material" : "materials/workshop/2821337237/effects/crt_screen.json"
+		}
+	],
+	"replacementkey" : "crt_screen",
+	"version" : 1
+}
