@@ -2,9 +2,13 @@
 	"passes" : 
 	[
 		{
+			"alphawriting" : "default",
 			"blending" : "translucent",
-			"combos" : {},
-			"cullmode" : "nocull",
+			"combos" : 
+			{
+				"LIGHTING" : 0
+			},
+			"cullmode" : "normal",
 			"depthtest" : "disabled",
 			"depthwrite" : "disabled",
 			"shader" : "genericimage4",

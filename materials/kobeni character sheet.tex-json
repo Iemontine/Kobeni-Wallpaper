@@ -5,7 +5,7 @@
 	"croptransparent" : true,
 	"cropx0" : 645,
 	"cropx1" : 3393,
-	"cropy0" : 31,
+	"cropy0" : 43,
 	"cropy1" : 1992,
 	"format" : "rgba8888",
 	"halfmip" : true,

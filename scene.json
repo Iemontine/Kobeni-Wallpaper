@@ -1,8 +1,8 @@
 {
 	"camera" : 
 	{
-		"center" : "49.84819 141.94601 -1.00000",
-		"eye" : "49.84819 141.94601 0.00000",
+		"center" : "-16.05638 0.00000 -1.00000",
+		"eye" : "-16.05638 0.00000 0.00000",
 		"up" : "0.00000 1.00000 0.00000"
 	},
 	"general" : 
@@ -37,8 +37,8 @@
 		"nearz" : 0.0099999998,
 		"orthogonalprojection" : 
 		{
-			"height" : 2044,
-			"width" : 4288
+			"height" : 1440,
+			"width" : 2560
 		},
 		"perspectiveoverridefov" : 90.0,
 		"skylightcolor" : "0.30000 0.30000 0.30000",
@@ -56,10 +56,10 @@
 			"id" : 33,
 			"image" : "models/under kobeni.json",
 			"name" : "under kobeni",
-			"origin" : "2144.00000 1022.00000 0.00000",
+			"origin" : "1280.00000 720.00000 0.00000",
 			"parallaxDepth" : "-1.00000 -1.00000",
 			"perspective" : true,
-			"scale" : "1.04678 1.03642 1.03642",
+			"scale" : "0.75000 0.75000 0.75000",
 			"size" : "4288.00000 2044.00000"
 		},
 		{
@@ -82,9 +82,9 @@
 							"constantshadervalues" : 
 							{
 								"Bar Color" : "1.00000 1.00000 1.00000",
-								"Bar Count" : 200,
-								"Bar Spacing" : 0.63,
-								"Lower/Upper Bar Bounds" : "0 0.8",
+								"Bar Count" : 134.7,
+								"Bar Spacing" : 0.67000002,
+								"Lower/Upper Bar Bounds" : "0 0.6",
 								"ui_editor_properties_opacity" : 1.0
 							},
 							"id" : 268
@@ -147,66 +147,1639 @@
 			"id" : 264,
 			"image" : "models/util/solidlayer.json",
 			"name" : "Audio Visualizer",
-			"origin" : "2148.60474 1602.94580 0.00000",
+			"origin" : "1280.00000 1135.00000 0.00000",
 			"parallaxDepth" : "1.80000 1.80000",
-			"size" : "4288.00000 501.00000"
+			"size" : "2800.00000 350.00000",
+			"visible" : 
+			{
+				"user" : "toggleaudiovisualizer",
+				"value" : true
+			}
 		},
 		{
+			"alignment" : "left",
+			"alpha" : 0.0,
+			"castshadow" : false,
+			"clampuvs" : true,
+			"color" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n// NOTE:\n// Don't forget to make a 'Checkbox' property and connect the 'Tint color' to that new property\n\n// Primary color of the Media Cover\nvar newColor;\n\nvar window = {};\n\nexport var scriptProperties = createScriptProperties()\n    .addCheckbox({\n        name: 'dynamicBar',\n        label: 'Dynamic Bar',\n        value: false\n    })\n    .addColor({\n        name: 'barColor',\n        label: 'Bar Color',\n        value: (window.wallpaperPropertiesListener = {\n                    applyUserProperties: function(properties) {\n                    properties.barcolor;\n                    }\n                })\n    })\n    .finish();\n\n\n/**\n * @param {Vec3} value - for property 'color'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n    if (scriptProperties.dynamicBar == true) {\n        value = new Vec3(newColor);\n    } else {\n        // Changes color based on property 'Title Color'\n        value = new Vec3(scriptProperties.barColor);\n    }\n    return value;\n}\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n    if (event.hasThumbnail == true) {\n        newColor = event.primaryColor;\n    }\n}\n",
+				"scriptproperties" : 
+				{
+					"barColor" : 
+					{
+						"user" : "barcolor",
+						"value" : "0.00000 0.00000 0.00000"
+					},
+					"dynamicBar" : 
+					{
+						"user" : "dynamicbar",
+						"value" : false
+					}
+				},
+				"user" : "barcolor",
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"disablepropagation" : false,
+			"id" : 439,
+			"image" : "models/util/solidlayer.json",
+			"name" : "Duration Bar",
+			"origin" : "160.06787 817.91931 0.00000",
+			"parallaxDepth" : "0.50000 0.50000",
+			"scale" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\nimport * as WEMath from 'WEMath';\n\n//--Global Data--\n// Your duration bar's x scale\nvar scaleX;\nvar scaleY = 0.07225;\nvar scaleZ = 1;\n\n// How long media is into the track in seconds\nvar position = 0;\n\n// How long media is in seconds\nvar duration = 0;\n\n// Media is Playing: 1\n// Media is Paused: 2\n// Media is Stopped: 0\nvar currentState = 0;\n\n//--------------------------------------------------------------------------------------------\nexport function applyUserProperties(changedUserProperties) {\n\tif (changedUserProperties.hasOwnProperty('barsize')) {\n        // Assign the changed property to a local variable\n        scaleX = changedUserProperties.barsize;\n    }\n}\n\n\n/**\n * @param {Vec3} value - for property 'scale'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\t// The bar will move while a song is playing, if paused it will adjust to where the user \t\tmoves the position of the song to \n\tif (currentState == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\t// Thank you https://steamcommunity.com/id/XerRag\n\t\tposition += engine.frametime;\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t} else if (currentState == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t}\n\treturn value;\n}\n\n/**\n * @param {MediaTimelineEvent} event\n */\nexport function mediaTimelineChanged(event) {\n\tposition = event.position;\n\tduration = event.duration;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tcurrentState = event.state;\n}\n",
+				"user" : "barsize",
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"size" : "800.00000 10.00000",
+			"visible" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n/**\n * @param {Boolean} value - for property 'visible'\n * @return {Boolean} - update current property value\n */\nexport function update(value) {\n\treturn value;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
+				"user" : "durationbar",
+				"value" : true
+			}
+		},
+		{
+			"alpha" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 1
+						}
+					],
+					"options" : 
+					{
+						"fps" : 60,
+						"length" : 60,
+						"mode" : "single",
+						"name" : "Text ausblenden",
+						"startpaused" : true,
+						"wraploop" : null
+					}
+				},
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
+				"value" : 1.0
+			},
 			"anchor" : "none",
 			"backgroundbrightness" : 1.0,
 			"backgroundcolor" : "0.00000 0.00000 0.00000",
 			"blockalign" : false,
 			"castshadow" : false,
 			"clampuvs" : true,
-			"color" : 
-			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n// Secondary color of the Media Cover\nvar newColor;\n\nvar window = {};\n\nexport var scriptProperties = createScriptProperties()\n    .addCheckbox({\n        name: 'dynamicTitle',\n        label: 'Dynamic Title',\n        value: false\n    })\n    .addColor({\n        name: 'titleColor',\n        label: 'Title Color',\n        value: (window.wallpaperPropertiesListener = {\n                    applyUserProperties: function(properties) {\n                    properties.titlecolor;\n                    }\n                })\n    })\n    .finish();\n\n\n/**\n * @param {Vec3} value - for property 'color'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n    if (scriptProperties.dynamicTitle == true) {\n        value = new Vec3(newColor);\n    } else {\n        // Changes color based on property 'Title Color'\n        value = new Vec3(scriptProperties.titleColor);\n    }\n    return value;\n}\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n    if (event.hasThumbnail == true) {\n        newColor = event.secondaryColor;\n    }\n}\n",
-				"scriptproperties" : 
-				{
-					"dynamicTitle" : false,
-					"titleColor" : 
-					{
-						"user" : "schemecolor",
-						"value" : 
-						{
-							"user" : "titlecolor",
-							"value" : "0.00000 0.00000 0.00000"
-						}
-					}
-				},
-				"user" : "titlecolor",
-				"value" : "1.00000 1.00000 1.00000"
-			},
 			"depthtest" : "enabled",
 			"disablepropagation" : false,
 			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
-			"horizontalalign" : "left",
-			"id" : 43,
+			"horizontalalign" : "right",
+			"id" : 114,
 			"limitrows" : true,
-			"limituseellipsis" : true,
+			"limituseellipsis" : false,
 			"limitwidth" : true,
 			"maxrows" : 1,
-			"maxwidth" : 1549.4924,
-			"name" : "Media Title",
+			"maxwidth" : 954.0,
+			"name" : "Song Title",
 			"opaquebackground" : false,
-			"origin" : "2733.21265 1293.73340 0.00000",
+			"origin" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"c1" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 63.893799
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"c2" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"options" : 
+					{
+						"fps" : 60,
+						"length" : 60,
+						"mode" : "single",
+						"name" : "Text Up to Down",
+						"startpaused" : true,
+						"wraploop" : null
+					},
+					"relative" : true
+				},
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
+				"value" : "960.00000 900.00000 0.00000"
+			},
 			"padding" : 32,
-			"parallaxDepth" : "1.80000 1.80000",
-			"pointsize" : 17.0,
-			"size" : "378.00000 81.00000",
+			"parallaxDepth" : "0.50000 0.50000",
+			"pointsize" : 
+			{
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"value" : 12.0
+			},
+			"scale" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\nexport function update(value) {\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x, speed), WEMath.mix(value.y, newScale.y, speed), WEMath.mix(value.z, newScale.z, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x, speed), WEMath.mix(value.y, initScale.y, speed), WEMath.mix(value.z, initScale.z, speed));\n\t}\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n",
+				"scriptproperties" : 
+				{
+					"hoScale" : 
+					{
+						"user" : "scaleonmousehover",
+						"value" : 1.1
+					},
+					"speed" : 10
+				},
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"size" : "265.00000 58.00000",
 			"text" : 
 			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\nvar mediaData = \"\";\n\n/**\n * @param {String} value - for property 'text'\n * @return {String} - update current property value\n */\nexport function update(value) {\n\treturn mediaData;\n}\n\n/**\n * @param {MediaPropertiesEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tmediaData = event.title;\n}\n",
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nvar mediaData = \"\";\n\n/**\n * @param {String} value - for property 'text'\n * @return {String} - update current property value\n */\nexport function update(value) {\n\treturn mediaData;\n}\n\n/**\n * @param {MediaPropertiesEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tmediaData = event.title;\n}\n",
 				"value" : "Song Title"
 			},
-			"verticalalign" : "center",
+			"verticalalign" : "bottom",
 			"visible" : 
 			{
-				"user" : "songtitle",
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
+				"user" : "togglemediadetection",
 				"value" : true
 			}
 		},
 		{
+			"alpha" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 1
+						}
+					],
+					"options" : 
+					{
+						"fps" : 60,
+						"length" : 60,
+						"mode" : "single",
+						"name" : "Text ausblenden",
+						"startpaused" : true,
+						"wraploop" : null
+					}
+				},
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
+				"value" : 1.0
+			},
+			"anchor" : "none",
+			"backgroundbrightness" : 1.0,
+			"backgroundcolor" : "0.00000 0.00000 0.00000",
+			"blockalign" : false,
+			"castshadow" : false,
+			"clampuvs" : true,
+			"depthtest" : "enabled",
+			"disablepropagation" : false,
+			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
+			"horizontalalign" : "right",
+			"id" : 116,
+			"limitrows" : true,
+			"limituseellipsis" : false,
+			"limitwidth" : true,
+			"maxrows" : 1,
+			"maxwidth" : 954.0,
+			"name" : "Artist",
+			"opaquebackground" : false,
+			"origin" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"c1" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : -45.638062
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"c2" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"options" : 
+					{
+						"fps" : 60,
+						"length" : 60,
+						"mode" : "single",
+						"name" : "Text Down to Up",
+						"startpaused" : true,
+						"wraploop" : null
+					},
+					"relative" : true
+				},
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
+				"value" : "960.00000 882.54761 0.00000"
+			},
+			"padding" : 32,
+			"parallaxDepth" : "0.50000 0.50000",
+			"pointsize" : 
+			{
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"value" : 10.0
+			},
+			"scale" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\nexport function update(value) {\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x, speed), WEMath.mix(value.y, newScale.y, speed), WEMath.mix(value.z, newScale.z, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x, speed), WEMath.mix(value.y, initScale.y, speed), WEMath.mix(value.z, initScale.z, speed));\n\t}\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n",
+				"scriptproperties" : 
+				{
+					"hoScale" : 1.1,
+					"speed" : 10
+				},
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"size" : "135.00000 48.00000",
+			"text" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n// Please note: Do not remove this line or asset references may break.\n\nvar mediaData = \"\";\n\n/**\n * @param {String} value - for property 'text'\n * @return {String} - update current property value\n */\nexport function update(value) {\n\treturn mediaData;\n}\n\n/**\n * @param {MediaPropertiesEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tmediaData = event.artist;\n}\n",
+				"value" : "Artist"
+			},
+			"verticalalign" : "top",
+			"visible" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
+				"user" : "togglemediadetection",
+				"value" : true
+			}
+		},
+		{
+			"alpha" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.81081081,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 23,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.81081081,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 1
+						}
+					],
+					"options" : 
+					{
+						"fps" : 60,
+						"length" : 60,
+						"mode" : "single",
+						"parent" : 
+						{
+							"key" : "origin"
+						},
+						"smoothing" : null,
+						"wraploop" : null
+					}
+				},
+				"value" : 0.0
+			},
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"effects" : 
+			[
+				{
+					"file" : "effects/workshop/2821337237/crt_screen/effect.json",
+					"id" : 155,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"combos" : 
+							{
+								"SHADOWMASK" : 0
+							},
+							"constantshadervalues" : 
+							{
+								"Opacity" : 1.0,
+								"Resolution" : 0.5,
+								"Static noise" : 0.36000001
+							},
+							"id" : 156
+						},
+						{
+							"combos" : 
+							{
+								"ARTIFACTS" : 0,
+								"SHADOWMASK" : 0
+							},
+							"constantshadervalues" : 
+							{
+								"Border size" : "0.51 0.51",
+								"Brightness" : 1.0,
+								"Curvature" : 0.47,
+								"Light bleed" : 2.2,
+								"Opacity" : 1.0,
+								"Saturation" : 0.61000001
+							},
+							"id" : 158
+						}
+					],
+					"visible" : true
+				}
+			],
+			"id" : 175,
+			"image" : "models/workshop/3030918169/solid_instance_model_7d738a82.json",
+			"instance" : 
+			{
+				"combos" : 
+				{
+					"version" : 2
+				},
+				"id" : 176,
+				"textures" : [ "util/white" ],
+				"usertextures" : 
+				[
+					{
+						"name" : "$mediaThumbnail",
+						"type" : "system"
+					}
+				]
+			},
+			"name" : "Album Cover",
+			"origin" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 35,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 790.93848
+						}
+					],
+					"c1" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 35,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : false,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : false,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"c2" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 45,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.91666667,
+								"y" : -0.0
+							},
+							"frame" : 51,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 56,
+							"front" : 
+							{
+								"enabled" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : false,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 60,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : false,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"options" : 
+					{
+						"children" : 
+						[
+							{
+								"key" : "alpha"
+							}
+						],
+						"fps" : 60,
+						"length" : 60,
+						"mode" : "single",
+						"name" : "Killme",
+						"startpaused" : true,
+						"wraploop" : null
+					},
+					"relative" : true
+				},
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\tthisObject.getAnimation().play();\n\t}\n\t\n}\n",
+				"value" : "282.00000 840.00000 0.00000"
+			},
+			"parallaxDepth" : "0.50000 0.50000",
+			"scale" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'audioDistortScale',\n\t\tlabel: 'Audio responsiveness scale multiplier',\n\t\tvalue: 1.1,\n\t\tmin: 0,\n\t\tmax: 10,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\n/**\n * Configure these to control smoothing and the frequency.\n */\nlet frequencyResolution = 16; // Must be 16, 32 or 64 per channel.\nlet sourceFrequency = 15; // Must be smaller than frequencyResolution. Lower values for bass, higher for treble.\nlet smoothingRate = 20;\n\n/**\n * This creates a permanent link to the audio response data.\n */\nlet audioBuffer = engine.registerAudioBuffers(frequencyResolution);\nvar smoothValue = 0.5;\n\nexport function update(value) {\n\tlet audioDelta = audioBuffer.average[sourceFrequency] - smoothValue;\n\tsmoothValue += audioDelta * engine.frametime * smoothingRate;\n\tsmoothValue = Math.min(1.0, smoothValue);\n\tlet audioDistort = 1 + (smoothValue * scriptProperties.audioDistortScale);\n\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x * audioDistort, speed), WEMath.mix(value.y, newScale.y * audioDistort, speed), WEMath.mix(value.z, newScale.z * audioDistort, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x * audioDistort, speed), WEMath.mix(value.y, initScale.y * audioDistort, speed), WEMath.mix(value.z, initScale.z * audioDistort, speed));\n\t}\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n\n\n\n",
+				"scriptproperties" : 
+				{
+					"audioDistortScale" : 0.1,
+					"hoScale" : 1.1,
+					"speed" : 25
+				},
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"size" : "175.00000 175.00000",
+			"visible" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
+				"user" : "togglemediadetection",
+				"value" : true
+			}
+		},
+		{
+			"alpha" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : false,
+								"x" : -1,
+								"y" : 0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : false,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.72115386,
+								"y" : -0.1
+							},
+							"frame" : 52,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0.04423077
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.82608694,
+								"y" : -0.1
+							},
+							"frame" : 75,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0.065217391
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 1
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.5714286,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 1
+						}
+					],
+					"options" : 
+					{
+						"fps" : 60,
+						"length" : 120,
+						"mode" : "single",
+						"parent" : 
+						{
+							"key" : "origin"
+						},
+						"smoothing" : null,
+						"wraploop" : null
+					}
+				},
+				"value" : 1.0
+			},
+			"anchor" : "none",
+			"backgroundbrightness" : 1.0,
+			"backgroundcolor" : "0.00000 0.00000 0.00000",
+			"blockalign" : false,
+			"castshadow" : false,
+			"clampuvs" : true,
+			"depthtest" : "enabled",
+			"disablepropagation" : false,
+			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
+			"horizontalalign" : "left",
+			"id" : 118,
+			"limitrows" : false,
+			"limituseellipsis" : false,
+			"limitwidth" : false,
+			"maxrows" : 1,
+			"maxwidth" : 500.0,
+			"name" : "Clock",
+			"opaquebackground" : false,
+			"origin" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.88235295,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.86538464,
+								"y" : -0.0
+							},
+							"frame" : 52,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.73170733,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"c1" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.88235295,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.86538464,
+								"y" : 12
+							},
+							"frame" : 52,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : -8.7692308
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : -71.310181
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.73170733,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : -120
+						}
+					],
+					"c2" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.88235295,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.86538464,
+								"y" : -0.0
+							},
+							"frame" : 52,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.73170733,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"options" : 
+					{
+						"children" : 
+						[
+							{
+								"key" : "alpha"
+							}
+						],
+						"fps" : 60,
+						"length" : 120,
+						"mode" : "single",
+						"name" : "Clock Up",
+						"smoothing" : 0,
+						"wraploop" : null
+					},
+					"relative" : true
+				},
+				"value" : "1800.00000 990.00000 0.00000"
+			},
+			"padding" : 32,
+			"parallaxDepth" : "0.50000 0.50000",
+			"pointsize" : 
+			{
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"value" : 22.0
+			},
+			"scale" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\nexport function update(value) {\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x, speed), WEMath.mix(value.y, newScale.y, speed), WEMath.mix(value.z, newScale.z, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x, speed), WEMath.mix(value.y, initScale.y, speed), WEMath.mix(value.z, initScale.z, speed));\n\t}\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n",
+				"scriptproperties" : 
+				{
+					"hoScale" : 1.1,
+					"speed" : 10
+				},
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"size" : "376.00000 105.00000",
+			"text" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nexport var scriptProperties = createScriptProperties()\n\t// Whether you want a 24h or 12h style format\n\t.addCheckbox({\n\t\tname: 'use24hFormat',\n\t\tlabel: 'ui_editor_properties_use_24h_format',\n\t\tvalue: true\n\t})\n\t// Whether you want to see the seconds or not\n\t.addCheckbox({\n\t\tname: 'showSeconds',\n\t\tlabel: 'ui_editor_properties_show_seconds',\n\t\tvalue: false\n\t})\n\t// This will be used to separate each element\n\t.addText({\n\t\tname: 'delimiter',\n\t\tlabel: 'ui_editor_properties_delimiter',\n\t\tvalue: ':'\n\t})\n\t.finish();\n\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n\tlet time = new Date();\n\tvar hours = time.getHours();\n\tif (!scriptProperties.use24hFormat) {\n\t\thours %= 12;\n\t\tif (hours == 0) {\n\t\t\thours = 12;\n\t\t}\n\t}\n\thours = (\"00\" + hours).slice(-2);\n\tlet minutes = (\"00\" + time.getMinutes()).slice(-2);\n\tvalue = hours + scriptProperties.delimiter + minutes;\n\tif (scriptProperties.showSeconds) {\n\t\tlet seconds = (\"00\" + time.getSeconds()).slice(-2);\n\t\tvalue += scriptProperties.delimiter + seconds;\n\t}\n\treturn value;\n}\n",
+				"scriptproperties" : 
+				{
+					"delimiter" : ":",
+					"showSeconds" : 
+					{
+						"user" : "datetimeshowseconds",
+						"value" : true
+					},
+					"use24hFormat" : 
+					{
+						"user" : "datetimeuse24hour",
+						"value" : true
+					}
+				},
+				"value" : "22:34:30"
+			},
+			"verticalalign" : "bottom",
+			"visible" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {Boolean} value - for property 'visible'\n * @return {Boolean} - update current property value\n */\nexport function update(value) {\n\t\n\treturn value;\n}\n",
+				"user" : "toggledatetime",
+				"value" : true
+			}
+		},
+		{
+			"alpha" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.88235295,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.72115386,
+								"y" : -0.1
+							},
+							"frame" : 52,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0.04423077
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.82608694,
+								"y" : -0.1
+							},
+							"frame" : 75,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0.065217391
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 1
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.5714286,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 1
+						}
+					],
+					"options" : 
+					{
+						"fps" : 60,
+						"length" : 120,
+						"mode" : "single",
+						"parent" : 
+						{
+							"key" : "origin"
+						},
+						"smoothing" : null,
+						"wraploop" : null
+					}
+				},
+				"value" : 1.0
+			},
+			"anchor" : "none",
+			"backgroundbrightness" : 1.0,
+			"backgroundcolor" : "0.00000 0.00000 0.00000",
+			"blockalign" : false,
+			"castshadow" : false,
+			"clampuvs" : true,
+			"depthtest" : "enabled",
+			"disablepropagation" : false,
+			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
+			"horizontalalign" : "left",
+			"id" : 152,
+			"limitrows" : false,
+			"limituseellipsis" : false,
+			"limitwidth" : false,
+			"maxrows" : 1,
+			"maxwidth" : 500.0,
+			"name" : "Date",
+			"opaquebackground" : false,
+			"origin" : 
+			{
+				"animation" : 
+				{
+					"c0" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.66666669,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.66666669,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"c1" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.88235295,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : -10
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.86538464,
+								"y" : -6.2714658
+							},
+							"frame" : 52,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 4.5829945
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.73170733,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 52.714661
+						}
+					],
+					"c2" : 
+					[
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -1,
+								"y" : -0.0
+							},
+							"frame" : 0,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 0.66666669,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						},
+						{
+							"back" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : -0.66666669,
+								"y" : -0.0
+							},
+							"frame" : 90,
+							"front" : 
+							{
+								"enabled" : true,
+								"magic" : true,
+								"x" : 1,
+								"y" : 0
+							},
+							"lockangle" : true,
+							"locklength" : true,
+							"value" : 0
+						}
+					],
+					"options" : 
+					{
+						"children" : 
+						[
+							{
+								"key" : "alpha"
+							}
+						],
+						"fps" : 60,
+						"length" : 120,
+						"mode" : "single",
+						"name" : "cu",
+						"smoothing" : null,
+						"wraploop" : null
+					},
+					"relative" : true
+				},
+				"value" : "1800.00000 798.00000 0.00000"
+			},
+			"padding" : 0,
+			"parallaxDepth" : "0.50000 0.50000",
+			"pointsize" : 
+			{
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"value" : 15.0
+			},
+			"size" : "207.00000 72.00000",
+			"text" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2108644365';\n\n\nexport var scriptProperties = createScriptProperties()\n  .addCombo({\n    name: 'monthFormat',\n    label: 'Month Format',\n    options: [{\n      label: 'Numeric',\n      value: '1'\n    }, {\n      label: 'Abbreviated',\n      value: '2'\n    }, {\n      label: 'Full',\n      value: '3'\n    }]\n  })\n  .addCombo({\n    name: 'dayFormat',\n    label: 'Day Format',\n    options: [{\n      label: 'Abbreviated',\n      value: '1'\n    }, {\n      label: 'Full',\n      value: '2'\n    }]\n  })\n  .addCheckbox({\n    name: 'showDay',\n    label: 'Show Day',\n    value: false\n  })\n  .addCheckbox({\n    name: 'alignVertical',\n    label: 'Align Day Vertically',\n    value: false\n  })\n  .addCheckbox({\n    name: 'useDelimiter',\n    label: 'Use Delimiter',\n    value: false\n  })\n  .addText({\n    name: 'addDelimiter',\n    label: 'Delimiter',\n    value: '/'\n  })\n  .finish();\n\n\nlet months;\nlet day;\nvar delimiterValue;\nvar newLine;\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n  if (scriptProperties.useDelimiter == true) {\n    delimiterValue = scriptProperties.addDelimiter\n  }\n  if (scriptProperties.useDelimiter == false) {\n    delimiterValue = [\n      ' '\n    ]\n  }\n  if (scriptProperties.alignVertical == true) {\n    newLine = [\n      '\\n'\n    ]\n  }\n  if (scriptProperties.alignVertical == false) {\n    newLine = [\n      ''\n    ]\n  }\n  if (scriptProperties.monthFormat == 1) {\n    months = [\n      '1',\n      '2',\n      '3',\n      '4',\n      '5',\n      '6',\n      '7',\n      '8',\n      '9',\n      '10',\n      '11',\n      '12'\n    ]\n  }\n  if (scriptProperties.monthFormat == 2) {\n    months = [\n      'Jan',\n      'Feb',\n      'Mar',\n      'Apr',\n      'May',\n      'Jun',\n      'Jul',\n      'Aug',\n      'Sep',\n      'Oct',\n      'Nov',\n      'Dec'\n    ]\n  }\n  if (scriptProperties.monthFormat == 3) {\n    months = [\n      'January',\n      'February',\n      'March',\n      'April',\n      'May',\n      'June',\n      'July',\n      'August',\n      'September',\n      'October',\n      'November',\n      'December'\n    ]\n  }\n  if (scriptProperties.dayFormat == 1) {\n    day = [\n      'Sun',\n      'Mon',\n      'Tue',\n      'Wed',\n      'Thu',\n      'Fri',\n      '\\nSat'\n    ]\n  }\n  if (scriptProperties.dayFormat == 2) {\n    day = [\n      'Sunday',\n      'Monday',\n      'Tuesday',\n      'Wednesday',\n      'Thursday',\n      'Friday',\n      '\\nSaturday'\n    ]\n  }\n  let date = new Date(); {\n    if (scriptProperties.showDay == true) {\n      return day[date.getDay()] + newLine + ' ' + date.getDate() + delimiterValue + months[date.getMonth()] + delimiterValue + date.getFullYear();\n    }\n    if (scriptProperties.showDay == false) {\n      return date.getDate() + delimiterValue + months[date.getMonth()] + delimiterValue + date.getFullYear();\n    }\n  }\n}\n",
+				"scriptproperties" : 
+				{
+					"addDelimiter" : 
+					{
+						"user" : "datetimedelimiter",
+						"value" : "/"
+					},
+					"alignVertical" : 
+					{
+						"user" : "datetimealigndayvertically",
+						"value" : true
+					},
+					"dayFormat" : "2",
+					"monthFormat" : "1",
+					"showDay" : 
+					{
+						"user" : "datetimeshowday",
+						"value" : true
+					},
+					"useDelimiter" : true
+				},
+				"value" : "<Date>"
+			},
+			"verticalalign" : "top",
+			"visible" : 
+			{
+				"user" : "toggledatetime",
+				"value" : true
+			}
+		},
+		{
+			"animationlayers" : 
+			[
+				{
+					"additive" : false,
+					"animation" : 139,
+					"blend" : 1.0,
+					"blendin" : false,
+					"blendout" : false,
+					"blendtime" : 0.5,
+					"id" : 1305,
+					"name" : "idle",
+					"rate" : 1.0,
+					"visible" : true
+				}
+			],
 			"castshadow" : false,
 			"clampuvs" : true,
 			"disablepropagation" : false,
@@ -215,7 +1788,7 @@
 				{
 					"file" : "effects/shake/effect.json",
 					"id" : 423,
-					"name" : "",
+					"name" : "eye idle",
 					"passes" : 
 					[
 						{
@@ -230,15 +1803,102 @@
 							"textures" : [ null, "masks/shake_mask_5355aef9" ]
 						}
 					],
-					"visible" : false
+					"visible" : true
+				},
+				{
+					"file" : "effects/shake/effect.json",
+					"id" : 293,
+					"name" : "blink",
+					"passes" : 
+					[
+						{
+							"combos" : 
+							{
+								"DIRECTION" : 1
+							},
+							"constantshadervalues" : 
+							{
+								"bounds" : "0.99 1.002",
+								"friction" : "1 1.25",
+								"speed" : 1,
+								"strength" : 0.16
+							},
+							"id" : 294,
+							"textures" : 
+							[
+								null,
+								"masks/shake_mask_ab5b0ae3",
+								"masks/shake_mask_cd1d01ca",
+								"masks/shake_mask_d0c5e1e9"
+							]
+						}
+					],
+					"visible" : true
+				},
+				{
+					"file" : "effects/waterwaves/effect.json",
+					"id" : 140,
+					"name" : "hair",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"direction" : -2.993444,
+								"direction2" : -0.034906585,
+								"exponent" : 1,
+								"exponent2" : 1.0,
+								"offset2" : 0.0,
+								"point0" : "0 0",
+								"point1" : "1 0",
+								"point2" : "1 1",
+								"point3" : "0 1",
+								"scale" : 46.880001,
+								"scale2" : 1,
+								"speed" : 1,
+								"speed2" : 0.13,
+								"strength" : 0.039999999
+							},
+							"id" : 141,
+							"textures" : 
+							[
+								null,
+								"masks/waterwaves_mask_ccc58b18",
+								"masks/waterwaves_mask_ed9bb7a5"
+							]
+						}
+					],
+					"visible" : true
+				},
+				{
+					"file" : "effects/waterwaves/effect.json",
+					"id" : 1142,
+					"name" : "tie",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"direction" : -3.1415927,
+								"exponent" : 1,
+								"scale" : 15.63,
+								"speed" : 1,
+								"strength" : 0.050000001
+							},
+							"id" : 1143,
+							"textures" : [ null, "masks/waterwaves_mask_8b46bbf6" ]
+						}
+					],
+					"visible" : true
 				}
 			],
 			"id" : 47,
 			"image" : "models/kobeni character sheet.json",
 			"name" : "kobeni character sheet",
-			"origin" : "2019.00000 1023.00000 0.00000",
-			"parallaxDepth" : "0.50000 0.50000",
+			"origin" : "1280.00000 720.00000 0.00000",
+			"parallaxDepth" : "0.75000 0.75000",
 			"perspective" : true,
+			"scale" : "0.75000 0.75000 0.75000",
 			"size" : "2848.00000 2042.00000"
 		},
 		{
@@ -249,9 +1909,152 @@
 			"id" : 35,
 			"image" : "models/chair piece.json",
 			"name" : "chair piece",
-			"origin" : "2289.00000 930.50000 0.00000",
+			"origin" : "1490.45081 648.80188 0.00000",
 			"parallaxDepth" : "0.80000 0.80000",
+			"scale" : "0.75000 0.75000 0.75000",
 			"size" : "314.00000 619.00000"
+		},
+		{
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"effects" : 
+			[
+				{
+					"file" : "effects/godrays/effect.json",
+					"id" : 123,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"noiseamount" : 0.34999999,
+								"noisescale" : 5.1599998,
+								"noisesmoothness" : 0.23199999,
+								"noisespeed" : 0.18000001,
+								"raythreshold" : 0.23
+							},
+							"id" : 124
+						},
+						{
+							"constantshadervalues" : 
+							{
+								"center" : "0.5 0.5",
+								"color" : "1.00000 1.00000 1.00000",
+								"rayintensity" : 0.19,
+								"raylength" : 0.50999999
+							},
+							"id" : 125
+						},
+						{
+							"constantshadervalues" : 
+							{
+								"blurscale" : "1.41 1.41"
+							},
+							"id" : 126
+						},
+						{
+							"combos" : 
+							{
+								"VERTICAL" : 1
+							},
+							"constantshadervalues" : 
+							{
+								"blurscale" : "1.41 1.41"
+							},
+							"id" : 127
+						},
+						{
+							"id" : 128
+						}
+					],
+					"visible" : 
+					{
+						"user" : "fxtogglegodrays",
+						"value" : true
+					}
+				},
+				{
+					"file" : "effects/workshop/2116673772/crt_scan_line/effect.json",
+					"id" : 1411,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"Noise Intensity" : 0.17,
+								"Noise Scale" : 1.0,
+								"Scan Line Intensity" : 0.039999999,
+								"Scan Line Size" : 6.5,
+								"Scan Line Speed" : 6.4400001,
+								"Vignette Intensity" : 0.029999999
+							},
+							"id" : 1412,
+							"textures" : [ "_rt_imageLayerComposite_120_a" ]
+						}
+					],
+					"visible" : 
+					{
+						"user" : "fxtogglecrtstyle",
+						"value" : true
+					}
+				},
+				{
+					"file" : "effects/chromaticaberration/effect.json",
+					"id" : 1466,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"ui_editor_properties_center" : "0.5 0.5",
+								"ui_editor_properties_center_falloff" : 1.0,
+								"ui_editor_properties_strength" : 0.30000001
+							},
+							"id" : 1467
+						}
+					],
+					"visible" : 
+					{
+						"user" : "fxtogglecrtstyle",
+						"value" : true
+					}
+				},
+				{
+					"file" : "effects/vhs/effect.json",
+					"id" : 1503,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"artifacts" : 0,
+								"chromatic" : 0.050000001,
+								"distortionspeed" : 0,
+								"distortionstrength" : 0,
+								"distortionwidth" : 0,
+								"scale" : 0.56999999,
+								"strength" : 0.5,
+								"tracking" : 0.090000004
+							},
+							"id" : 1504
+						}
+					],
+					"visible" : 
+					{
+						"user" : "fxtogglecrtstyle",
+						"value" : true
+					}
+				}
+			],
+			"id" : 120,
+			"image" : "models/util/fullscreenlayer.json",
+			"name" : "Post-processing Layer",
+			"parallaxDepth" : "0.00000 0.00000"
 		}
 	],
 	"version" : 5

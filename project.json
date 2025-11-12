@@ -1,21 +1,133 @@
 {
+	"contentrating" : "Everyone",
+	"description" : "[Version 2]\nStill WIP, if anyone has issues with or suggestions for it, please let me know what you think!\n\nFeatures\n1. Puppet warp idle animation by me!\n2. Audio visualizer, audio responsive visualizer\n3. Media integration / media detection (song title, artist, and album cover).\n4. Date/time visuals\n5. Basic intro hover animations\n6. Customizable user settings\n\n\"\"\"\"rkgk\"\"\"\" art by xilmo1\n\nTODO:\n1. Clean up puppet animations\n2. ???\n\ntags: kobeni higashiyama, 東山コベニ, puppet warp, high quality, anime, chainsaw man girl",
 	"file" : "scene.json",
 	"general" : 
 	{
 		"properties" : 
 		{
+			"datetimealigndayvertically" : 
+			{
+				"condition" : "toggledatetime.value == 1 && datetimeshowday.value == 1",
+				"index" : 8,
+				"order" : 108,
+				"text" : "Date/Time: Align Day Vertically",
+				"type" : "bool",
+				"value" : false
+			},
+			"datetimedelimiter" : 
+			{
+				"condition" : "toggledatetime.value == 1",
+				"index" : 6,
+				"order" : 106,
+				"text" : "Date/Time: Delimiter",
+				"type" : "textinput",
+				"value" : "/"
+			},
+			"datetimeshowday" : 
+			{
+				"condition" : "toggledatetime.value == 1",
+				"index" : 7,
+				"order" : 107,
+				"text" : "Date/Time: Show Day",
+				"type" : "bool",
+				"value" : true
+			},
+			"datetimeshowseconds" : 
+			{
+				"condition" : "toggledatetime.value == 1",
+				"index" : 10,
+				"order" : 110,
+				"text" : "Date/Time: Show Seconds",
+				"type" : "bool",
+				"value" : true
+			},
+			"datetimeuse24hour" : 
+			{
+				"condition" : "toggledatetime.value == 1",
+				"index" : 9,
+				"order" : 109,
+				"text" : "Date/Time: Use 24 Hour",
+				"type" : "bool",
+				"value" : true
+			},
+			"fxtogglecrtstyle" : 
+			{
+				"condition" : "",
+				"index" : 4,
+				"order" : 104,
+				"text" : "FX: Toggle CRT Style",
+				"type" : "bool",
+				"value" : true
+			},
+			"fxtogglegodrays" : 
+			{
+				"index" : 3,
+				"order" : 103,
+				"text" : "FX: Toggle Godrays",
+				"type" : "bool",
+				"value" : true
+			},
 			"schemecolor" : 
 			{
 				"index" : 0,
 				"order" : 100,
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
-				"value" : "1 1 1"
+				"value" : "0.6901960784313725 0.24313725490196078 0.23137254901960785"
+			},
+			"textscale" : 
+			{
+				"fraction" : true,
+				"index" : 0,
+				"max" : 5,
+				"min" : 0,
+				"order" : 100,
+				"precision" : 3,
+				"step" : 0.01,
+				"text" : "Text Scale",
+				"type" : "slider",
+				"value" : 1
+			},
+			"toggleaudiovisualizer" : 
+			{
+				"index" : 1,
+				"order" : 101,
+				"text" : "Toggle Audio Visualizer",
+				"type" : "bool",
+				"value" : true
+			},
+			"toggledatetime" : 
+			{
+				"index" : 5,
+				"order" : 105,
+				"text" : "Toggle Date/Time",
+				"type" : "bool",
+				"value" : true
+			},
+			"togglemediadetection" : 
+			{
+				"index" : 2,
+				"order" : 102,
+				"text" : "Toggle Media Detection",
+				"type" : "bool",
+				"value" : true
 			}
 		},
-		"supportsaudioprocessing" : true
+		"supportsaudioprocessing" : true,
+		"supportsvideo" : true,
+		"supportsvideoflags" : 2
 	},
-	"title" : "kobeni",
+	"preview" : "preview.gif",
+	"ratingsex" : "none",
+	"ratingviolence" : "none",
+	"snapshotformat" : 4,
+	"snapshotoverlay" : "",
+	"tags" : [ "Anime" ],
+	"title" : "Kobeni in the Theatre - Chainsaw Man",
 	"type" : "scene",
-	"version" : 0
+	"version" : 4,
+	"visibility" : "public",
+	"workshopid" : "3604242511",
+	"workshopurl" : "steam://url/CommunityFilePage/3604242511"
 }
