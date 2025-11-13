@@ -9,101 +9,100 @@
 			"date" : 
 			{
 				"condition" : "",
-				"index" : 8,
-				"order" : 108,
-				"text" : "Date/Time"
+				"index" : 9,
+				"order" : 109,
+				"text" : "<hr><h4><b>Date/Time</b></h4><hr>"
 			},
 			"dateformategmmddyyyymonthdayyearddmmyy" : 
 			{
 				"condition" : "toggledatetime.value == 1",
-				"index" : 12,
-				"order" : 112,
-				"text" : "<b>Date</b>: Format",
+				"index" : 13,
+				"order" : 113,
+				"text" : "<li>Format</li>",
 				"type" : "textinput",
 				"value" : "MM/DD/YYYY"
 			},
 			"datetimealigndayvertically" : 
 			{
 				"condition" : "toggledatetime.value == 1 && datetimeshowday.value == 1",
-				"index" : 11,
-				"order" : 111,
-				"text" : "<b>Date</b>: Align Day Vertically",
+				"index" : 12,
+				"order" : 112,
+				"text" : "<li>Align Day Vertically</li>",
 				"type" : "bool",
 				"value" : false
 			},
 			"datetimeshowday" : 
 			{
 				"condition" : "toggledatetime.value == 1",
-				"index" : 10,
-				"order" : 110,
-				"text" : "<b>Date</b>: Show Day",
+				"index" : 11,
+				"order" : 111,
+				"text" : "<li>Show Day</li>",
 				"type" : "bool",
 				"value" : true
 			},
 			"datetimeshowseconds" : 
 			{
 				"condition" : "toggledatetime.value == 1",
-				"index" : 14,
-				"order" : 114,
-				"text" : "<b>Time</b>: Show Seconds",
+				"index" : 15,
+				"order" : 115,
+				"text" : "<li>Show Seconds</li>",
 				"type" : "bool",
 				"value" : true
 			},
 			"datetimeuse24hour" : 
 			{
 				"condition" : "toggledatetime.value == 1",
-				"index" : 13,
-				"order" : 113,
-				"text" : "<b>Time</b>: Use 24 Hour",
+				"index" : 14,
+				"order" : 114,
+				"text" : "<li>Use 24 Hour</li>",
 				"type" : "bool",
 				"value" : true
 			},
 			"footer" : 
 			{
 				"condition" : "",
-				"index" : 15,
-				"order" : 115,
-				"text" : "<h4 class='ugcSuccess'>Foreground Image</h4>"
+				"index" : 16,
+				"order" : 116,
+				"text" : "<br>Made by <a href='https://steamcommunity.com/sharedfiles/filedetails/?id=3604242511'>lemontine</a><span class='ugcSub'> (click to check out the Steam page!)</span>"
 			},
 			"fx" : 
 			{
-				"index" : 3,
-				"order" : 103,
-				"text" : "FX",
-				"type" : "group",
+				"index" : 4,
+				"order" : 104,
+				"text" : "<hr><h4><b>FX</b><h4><hr>",
 				"value" : ""
 			},
 			"fxfloatingash" : 
 			{
-				"index" : 5,
-				"order" : 105,
-				"text" : "<b>FX</b>: Floating Ash",
+				"index" : 6,
+				"order" : 106,
+				"text" : "<li>Toggle Floating Ash</li>",
 				"type" : "bool",
 				"value" : true
 			},
 			"fxissheblazingit" : 
 			{
 				"condition" : "",
-				"index" : 4,
-				"order" : 104,
-				"text" : "<b>FX</b>: kobeni blazing it",
+				"index" : 5,
+				"order" : 105,
+				"text" : "<li>Toggle blazing it</li>",
 				"type" : "bool",
 				"value" : true
 			},
 			"fxtogglecrtstyle" : 
 			{
 				"condition" : "",
-				"index" : 7,
-				"order" : 107,
-				"text" : "<b>FX</b>: Toggle CRT Style",
+				"index" : 8,
+				"order" : 108,
+				"text" : "<li>Toggle CRT Style</li>",
 				"type" : "bool",
 				"value" : true
 			},
 			"fxtogglegodrays" : 
 			{
-				"index" : 6,
-				"order" : 106,
-				"text" : "<b>FX</b>: Toggle Godrays",
+				"index" : 7,
+				"order" : 107,
+				"text" : "<li>Toggle Godrays</li>",
 				"type" : "bool",
 				"value" : true
 			},
@@ -114,6 +113,25 @@
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
 				"value" : "0.07058823529411765 0.07450980392156863 0.07450980392156863"
+			},
+			"style" : 
+			{
+				"index" : 1,
+				"options" : 
+				[
+					{
+						"label" : "Close Up",
+						"value" : "style1"
+					},
+					{
+						"label" : "Far Away",
+						"value" : "style2"
+					}
+				],
+				"order" : 101,
+				"text" : "Style",
+				"type" : "combo",
+				"value" : "style1"
 			},
 			"textscale" : 
 			{
@@ -130,24 +148,24 @@
 			},
 			"toggleaudiovisualizer" : 
 			{
-				"index" : 1,
-				"order" : 101,
+				"index" : 2,
+				"order" : 102,
 				"text" : "Toggle Audio Visualizer",
 				"type" : "bool",
 				"value" : true
 			},
 			"toggledatetime" : 
 			{
-				"index" : 9,
-				"order" : 109,
-				"text" : "Toggle Date/Time",
+				"index" : 10,
+				"order" : 110,
+				"text" : "<li>Toggle Date/Time</li>",
 				"type" : "bool",
 				"value" : true
 			},
 			"togglemediadetection" : 
 			{
-				"index" : 2,
-				"order" : 102,
+				"index" : 3,
+				"order" : 103,
 				"text" : "Toggle Media Detection",
 				"type" : "bool",
 				"value" : true
@@ -164,7 +182,7 @@
 	"snapshotoverlay" : "",
 	"tags" : [ "Anime" ],
 	"title" : "THEATER KOBENI (Customizable) - Chainsaw Man",
-	"type" : "scene",
+	"type" : "Scene",
 	"version" : 11,
 	"visibility" : "public",
 	"workshopid" : "3604242511",

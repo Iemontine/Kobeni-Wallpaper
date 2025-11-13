@@ -56,7 +56,11 @@
 			"id" : 33,
 			"image" : "models/under kobeni.json",
 			"name" : "under kobeni",
-			"origin" : "1280.00000 720.00000 0.00000",
+			"origin" : 
+			{
+				"script" : "'use strict';\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\n\treturn value;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\t// Only run when the Style combo changes\n\tif (changedUserProperties.style !== undefined) {\n\t\tconst style = user.style;               // current value (\"style1\" or \"style2\")\n\n\t\t// ---------- CAMERA TARGET VALUES ----------\n\t\tlet target = {\n\t\t\tx: style === \"style1\" ? 1280 : 0,\n\t\t\ty: style === \"style1\" ? 720 : 0,\n\t\t\tscale: style === \"style1\" ? 0.75 : 0.9\n\t\t};\n\n\t\t// ---------- APPLY TO View GROUP ----------\n\t\t// Instant switch (uncomment next 3 lines)\n\t\t// View.PositionX = target.x;\n\t\t// View.PositionY = target.y;\n\t\t// View.ScaleX = View.ScaleY = target.scale;\n\n\t\t// ---- OR ---- SMOOTH TRANSITION (default)\n\t\tconst speed = 0.25;                     // 0 = instant, 1 = very slow\n\t\tView.PositionX = lerp(View.PositionX, target.x, speed);\n\t\tView.PositionY = lerp(View.PositionY, target.y, speed);\n\t\tView.ScaleX = lerp(View.ScaleX, target.scale, speed);\n\t\tView.ScaleY = lerp(View.ScaleY, target.scale, speed);\n\t}\n}",
+				"value" : "1280.00000 720.00000 0.00000"
+			},
 			"parallaxDepth" : "-1.00000 -1.00000",
 			"perspective" : true,
 			"scale" : "0.75000 0.75000 0.75000",
