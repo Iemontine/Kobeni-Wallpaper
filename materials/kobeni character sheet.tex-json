@@ -7,7 +7,7 @@
 	"cropx1" : 3393,
 	"cropy0" : 43,
 	"cropy1" : 1992,
-	"format" : "rgba8888",
+	"format" : "dxt5",
 	"halfmip" : true,
 	"nonpoweroftwo" : true
 }
