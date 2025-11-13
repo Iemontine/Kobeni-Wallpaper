@@ -19,7 +19,11 @@
 		"bloomtint" : "1.00000 1.00000 1.00000",
 		"camerafade" : true,
 		"cameraparallax" : true,
-		"cameraparallaxamount" : -0.02,
+		"cameraparallaxamount" : 
+		{
+			"script" : "'use strict';\n\nvar amount = 0;\n\n/**\n * @param {Number} value - for property 'cameraparallaxamount'\n * @return {Number} - update current property value\n */\nexport function update(value) {\n\tvalue = amount;\n\treturn value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\tamount = -0.02;\n\t\t} else {\n\t\t\tamount = -0.01;\n\t\t}\n\t}\n}\n",
+			"value" : -0.02
+		},
 		"cameraparallaxdelay" : 0.1,
 		"cameraparallaxmouseinfluence" : 0.5,
 		"camerapreview" : true,
@@ -52,21 +56,89 @@
 		{
 			"castshadow" : false,
 			"clampuvs" : true,
+			"color" : "0.07451 0.07451 0.07451",
 			"disablepropagation" : false,
+			"id" : 277,
+			"image" : "models/util/solidlayer.json",
+			"name" : "Solid",
+			"origin" : "1280.00000 720.00000 0.00000",
+			"size" : "5000.00000 5000.00000",
+			"solid" : false
+		},
+		{
+			"castshadow" : false,
+			"clampuvs" : true,
+			"disablepropagation" : false,
+			"effects" : 
+			[
+				{
+					"file" : "effects/workshop/2138904733/cutout_vignette/effect.json",
+					"id" : 343,
+					"name" : "",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"Cutout Alpha" : 1,
+								"Cutout Color" : "0.07450980392156863 0.07450980392156863 0.07450980392156863",
+								"Cutout Gradient Value 1 (Fade = 0.1)" : 0.1,
+								"Cutout Gradient Value 2 (Fade = 0.9)" : 0.69999999,
+								"Cutout Offset" : 0.5,
+								"Cutout Scale" : 3.3499999,
+								"Cutout Skew" : 0.0,
+								"Cutout Skew Shift X" : 0.5,
+								"Cutout Skew Shift Y" : 0.5
+							},
+							"id" : 344
+						}
+					],
+					"visible" : 
+					{
+						"user" : 
+						{
+							"condition" : "style2",
+							"name" : "style"
+						},
+						"value" : true
+					}
+				}
+			],
 			"id" : 33,
 			"image" : "models/under kobeni.json",
 			"name" : "under kobeni",
 			"origin" : 
 			{
-				"script" : "'use strict';\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\n\treturn value;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\t// Only run when the Style combo changes\n\tif (changedUserProperties.style !== undefined) {\n\t\tconst style = user.style;               // current value (\"style1\" or \"style2\")\n\n\t\t// ---------- CAMERA TARGET VALUES ----------\n\t\tlet target = {\n\t\t\tx: style === \"style1\" ? 1280 : 0,\n\t\t\ty: style === \"style1\" ? 720 : 0,\n\t\t\tscale: style === \"style1\" ? 0.75 : 0.9\n\t\t};\n\n\t\t// ---------- APPLY TO View GROUP ----------\n\t\t// Instant switch (uncomment next 3 lines)\n\t\t// View.PositionX = target.x;\n\t\t// View.PositionY = target.y;\n\t\t// View.ScaleX = View.ScaleY = target.scale;\n\n\t\t// ---- OR ---- SMOOTH TRANSITION (default)\n\t\tconst speed = 0.25;                     // 0 = instant, 1 = very slow\n\t\tView.PositionX = lerp(View.PositionX, target.x, speed);\n\t\tView.PositionY = lerp(View.PositionY, target.y, speed);\n\t\tView.ScaleX = lerp(View.ScaleX, target.scale, speed);\n\t\tView.ScaleY = lerp(View.ScaleY, target.scale, speed);\n\t}\n}",
+				"script" : "'use strict';\n\n// Define the target position and scale globally to persist their values\n// between update calls.\nlet targetX = 0;\nlet targetY = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tvalue.x = value.x + (targetX - value.x) * lerpFactor;\n\tvalue.y = value.y + (targetY - value.y) * lerpFactor;\n\n\treturn value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style == \"style1\") {\n\t\t\ttargetX = 1280;\n\t\t\ttargetY = 720;\n\t\t} else {\n\t\t\ttargetX = 1280;\n\t\t\ttargetY = 500;\n\t\t}\n\t}\n}",
 				"value" : "1280.00000 720.00000 0.00000"
 			},
 			"parallaxDepth" : "-1.00000 -1.00000",
 			"perspective" : true,
-			"scale" : "0.75000 0.75000 0.75000",
+			"scale" : 
+			{
+				"script" : "'use strict';\n\n// Define the target position and scale globally to persist their values\n// between update calls.\nlet targetScale = 0.75;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tlet newScale = value.x + (targetScale - value.x) * lerpFactor;\n\tvalue = new Vec3(newScale, newScale, newScale);\n\n\treturn value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\t\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style == \"style1\") {\n\t\t\ttargetScale = 0.75;\n\t\t} else {\n\t\t\ttargetScale = 0.5;\n\t\t}\n\t}\n}",
+				"value" : "0.75000 0.75000 0.75000"
+			},
 			"size" : "4288.00000 2044.00000"
 		},
 		{
+			"disablepropagation" : false,
+			"id" : 223,
+			"name" : "",
+			"origin" : 
+			{
+				"script" : "'use strict';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'offsetX',\n\t\tlabel: 'X Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'offsetY',\n\t\tlabel: 'Y Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initial = new Vec3(0,0,0);\nlet targetX = 0;\nlet targetY = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tvalue.x = value.x + (targetX - value.x) * lerpFactor;\n\tvalue.y = value.y + (targetY - value.y) * lerpFactor;\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitial = value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\ttargetX = initial.x;\n\t\t\ttargetY = initial.y;\n\t\t} else {\n\t\t\ttargetX = initial.x + scriptProperties.offsetX;\n\t\t\ttargetY = initial.y + scriptProperties.offsetY;\n\t\t}\n\t}\n}\n",
+				"scriptproperties" : 
+				{
+					"offsetX" : 50,
+					"offsetY" : -250
+				},
+				"value" : "1280.00000 720.00000 0.00000"
+			},
+			"solid" : true
+		},
+		{
+			"angles" : "0.00000 -0.00000 0.00000",
 			"castshadow" : false,
 			"clampuvs" : true,
 			"disablepropagation" : false,
@@ -86,9 +158,13 @@
 							"constantshadervalues" : 
 							{
 								"Bar Color" : "1.00000 1.00000 1.00000",
-								"Bar Count" : 134.7,
+								"Bar Count" : 135,
 								"Bar Spacing" : 0.67000002,
-								"Lower/Upper Bar Bounds" : "0 0.6",
+								"Lower/Upper Bar Bounds" : 
+								{
+									"script" : "'use strict';\n\n// Define the target position and scale globally to persist their values\n// between update calls.\nlet targetX = 0;\nlet targetY = 0;\n\n/**\n * @param {Vec2} value - for property 'Lower/Upper Bar Bounds'\n * @return {Vec2} - update current property value\n */\nexport function update(value) {\n\t// The lerp factor (e.g., 0.05) controls the speed of the transition.\n\t// A higher value moves faster; a lower value provides a smoother, slower transition.\n\tconst lerpFactor = 0.05; \n\n\t// Lerp the current X position towards the target X position\n\tvalue.x = value.x + (targetX - value.x) * lerpFactor;\n\n\t// Lerp the current Y position towards the target Y position\n\tvalue.y = value.y + (targetY - value.y) * lerpFactor;\n\t\n\t// 'z' is often unused for 2D positioning but can be included if needed\n\t// value.z = value.z + (targetZ - value.z) * lerpFactor;\n\n\treturn value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t// Update the global target variables based on the new style\n\tif (style === \"style1\") {\n\t\ttargetX = 0;\n\t\ttargetY = 0.6;\n\t} else {\n\t\ttargetX = 0;\n\t\ttargetY = 0.3;\n\t}\n}\n",
+									"value" : "0.00000 0.60000"
+								},
 								"ui_editor_properties_opacity" : 1.0
 							},
 							"id" : 268
@@ -151,18 +227,15 @@
 			"id" : 264,
 			"image" : "models/util/solidlayer.json",
 			"name" : "Audio Visualizer",
-			"origin" : "1280.00000 1135.00000 0.00000",
+			"origin" : "0.00000 415.00000 0.00000",
 			"parallaxDepth" : "1.80000 1.80000",
-			"size" : "2800.00000 350.00000",
-			"visible" : 
-			{
-				"user" : "toggleaudiovisualizer",
-				"value" : true
-			}
+			"parent" : 223,
+			"size" : "2800.00000 350.00000"
 		},
 		{
 			"alignment" : "left",
 			"alpha" : 0.0,
+			"angles" : "0.00000 -0.00000 0.00000",
 			"castshadow" : false,
 			"clampuvs" : true,
 			"color" : 
@@ -188,8 +261,9 @@
 			"id" : 439,
 			"image" : "models/util/solidlayer.json",
 			"name" : "Duration Bar",
-			"origin" : "160.06787 817.91931 0.00000",
+			"origin" : "-1119.93213 97.91931 0.00000",
 			"parallaxDepth" : "0.50000 0.50000",
+			"parent" : 223,
 			"scale" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\nimport * as WEMath from 'WEMath';\n\n//--Global Data--\n// Your duration bar's x scale\nvar scaleX;\nvar scaleY = 0.07225;\nvar scaleZ = 1;\n\n// How long media is into the track in seconds\nvar position = 0;\n\n// How long media is in seconds\nvar duration = 0;\n\n// Media is Playing: 1\n// Media is Paused: 2\n// Media is Stopped: 0\nvar currentState = 0;\n\n//--------------------------------------------------------------------------------------------\nexport function applyUserProperties(changedUserProperties) {\n\tif (changedUserProperties.hasOwnProperty('barsize')) {\n        // Assign the changed property to a local variable\n        scaleX = changedUserProperties.barsize;\n    }\n}\n\n\n/**\n * @param {Vec3} value - for property 'scale'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\t// The bar will move while a song is playing, if paused it will adjust to where the user \t\tmoves the position of the song to \n\tif (currentState == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\t// Thank you https://steamcommunity.com/id/XerRag\n\t\tposition += engine.frametime;\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t} else if (currentState == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t}\n\treturn value;\n}\n\n/**\n * @param {MediaTimelineEvent} event\n */\nexport function mediaTimelineChanged(event) {\n\tposition = event.position;\n\tduration = event.duration;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tcurrentState = event.state;\n}\n",
@@ -261,6 +335,7 @@
 				"value" : 1.0
 			},
 			"anchor" : "none",
+			"angles" : "0.00000 -0.00000 0.00000",
 			"backgroundbrightness" : 1.0,
 			"backgroundcolor" : "0.00000 0.00000 0.00000",
 			"blockalign" : true,
@@ -410,19 +485,20 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
-				"value" : "960.00000 930.00000 0.00000"
+				"script" : "\n'use strict';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}",
+				"value" : "-320.00000 210.00000 0.00000"
 			},
 			"padding" : 0,
 			"parallaxDepth" : "0.50000 0.50000",
+			"parent" : 223,
 			"pointsize" : 
 			{
-				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
 				"value" : 12.0
 			},
 			"scale" : 
 			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\nexport function update(value) {\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x, speed), WEMath.mix(value.y, newScale.y, speed), WEMath.mix(value.z, newScale.z, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x, speed), WEMath.mix(value.y, initScale.y, speed), WEMath.mix(value.z, initScale.z, speed));\n\t}\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n",
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\nexport function update(value) {\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x, speed), WEMath.mix(value.y, newScale.y, speed), WEMath.mix(value.z, newScale.z, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x, speed), WEMath.mix(value.y, initScale.y, speed), WEMath.mix(value.z, initScale.z, speed));\n\t}\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n\n\n\n",
 				"scriptproperties" : 
 				{
 					"hoScale" : 
@@ -506,6 +582,7 @@
 				"value" : 1.0
 			},
 			"anchor" : "none",
+			"angles" : "0.00000 -0.00000 0.00000",
 			"backgroundbrightness" : 1.0,
 			"backgroundcolor" : "0.00000 0.00000 0.00000",
 			"blockalign" : true,
@@ -655,14 +732,15 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
-				"value" : "960.00000 880.00000 0.00000"
+				"script" : "'use strict';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}",
+				"value" : "-320.00000 160.00000 0.00000"
 			},
 			"padding" : 0,
 			"parallaxDepth" : "0.50000 0.50000",
+			"parent" : 223,
 			"pointsize" : 
 			{
-				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
 				"value" : 10.0
 			},
 			"scale" : 
@@ -688,6 +766,22 @@
 				"user" : "togglemediadetection",
 				"value" : true
 			}
+		},
+		{
+			"disablepropagation" : false,
+			"id" : 191,
+			"name" : "",
+			"origin" : 
+			{
+				"script" : "'use strict';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'offsetX',\n\t\tlabel: 'X Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'offsetY',\n\t\tlabel: 'Y Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initial = new Vec3(0,0,0);\nlet targetX = 0;\nlet targetY = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tvalue.x = value.x + (targetX - value.x) * lerpFactor;\n\tvalue.y = value.y + (targetY - value.y) * lerpFactor;\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitial = value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\ttargetX = initial.x;\n\t\t\ttargetY = initial.y;\n\t\t} else {\n\t\t\ttargetX = initial.x + scriptProperties.offsetX;\n\t\t\ttargetY = initial.y + scriptProperties.offsetY;\n\t\t}\n\t}\n}\n",
+				"scriptproperties" : 
+				{
+					"offsetX" : 50,
+					"offsetY" : -240
+				},
+				"value" : "1280.00000 720.00000 0.00000"
+			},
+			"solid" : true
 		},
 		{
 			"alpha" : 
@@ -752,6 +846,7 @@
 				},
 				"value" : 0.0
 			},
+			"angles" : "0.00000 -0.00000 0.00000",
 			"castshadow" : false,
 			"clampuvs" : true,
 			"disablepropagation" : false,
@@ -759,7 +854,7 @@
 			[
 				{
 					"file" : "effects/workshop/2821337237/crt_screen/effect.json",
-					"id" : 155,
+					"id" : 220,
 					"name" : "",
 					"passes" : 
 					[
@@ -774,7 +869,7 @@
 								"Resolution" : 0.5,
 								"Static noise" : 0.36000001
 							},
-							"id" : 156
+							"id" : 224
 						},
 						{
 							"combos" : 
@@ -791,13 +886,13 @@
 								"Opacity" : 1.0,
 								"Saturation" : 0.61000001
 							},
-							"id" : 158
+							"id" : 225
 						}
 					],
 					"visible" : true
 				}
 			],
-			"id" : 175,
+			"id" : 218,
 			"image" : "models/workshop/3030918169/solid_instance_model_7d738a82.json",
 			"instance" : 
 			{
@@ -805,7 +900,7 @@
 				{
 					"version" : 2
 				},
-				"id" : 176,
+				"id" : 219,
 				"textures" : [ "util/white" ],
 				"usertextures" : 
 				[
@@ -856,7 +951,7 @@
 							},
 							"lockangle" : true,
 							"locklength" : true,
-							"value" : 790.93848
+							"value" : 760
 						}
 					],
 					"c1" : 
@@ -896,26 +991,6 @@
 							"lockangle" : true,
 							"locklength" : true,
 							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : false,
-								"x" : -1,
-								"y" : 0
-							},
-							"frame" : 60,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : false,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
 						}
 					],
 					"c2" : 
@@ -931,82 +1006,6 @@
 							"front" : 
 							{
 								"enabled" : true,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"x" : -1,
-								"y" : 0
-							},
-							"frame" : 45,
-							"front" : 
-							{
-								"enabled" : true,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -0.91666669,
-								"y" : -0.0
-							},
-							"frame" : 51,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"x" : -1,
-								"y" : 0
-							},
-							"frame" : 56,
-							"front" : 
-							{
-								"enabled" : true,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : false,
-								"x" : -1,
-								"y" : 0
-							},
-							"frame" : 60,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : false,
 								"x" : 1,
 								"y" : 0
 							},
@@ -1032,18 +1031,19 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\tthisObject.getAnimation().play();\n\t}\n\t\n}\n",
-				"value" : "282.00000 840.00000 0.00000"
+				"script" : "'use strict';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}",
+				"value" : "-960.00000 120.00000 0.00000"
 			},
 			"parallaxDepth" : "0.50000 0.50000",
+			"parent" : 191,
 			"scale" : 
 			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'audioDistortScale',\n\t\tlabel: 'Audio responsiveness scale multiplier',\n\t\tvalue: 1.1,\n\t\tmin: 0,\n\t\tmax: 10,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\n/**\n * Configure these to control smoothing and the frequency.\n */\nlet frequencyResolution = 16; // Must be 16, 32 or 64 per channel.\nlet sourceFrequency = 15; // Must be smaller than frequencyResolution. Lower values for bass, higher for treble.\nlet smoothingRate = 20;\n\n/**\n * This creates a permanent link to the audio response data.\n */\nlet audioBuffer = engine.registerAudioBuffers(frequencyResolution);\nvar smoothValue = 0.5;\n\nexport function update(value) {\n\tlet audioDelta = audioBuffer.average[sourceFrequency] - smoothValue;\n\tsmoothValue += audioDelta * engine.frametime * smoothingRate;\n\tsmoothValue = Math.min(1.0, smoothValue);\n\tlet audioDistort = 1 + (smoothValue * scriptProperties.audioDistortScale);\n\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x * audioDistort, speed), WEMath.mix(value.y, newScale.y * audioDistort, speed), WEMath.mix(value.z, newScale.z * audioDistort, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x * audioDistort, speed), WEMath.mix(value.y, initScale.y * audioDistort, speed), WEMath.mix(value.z, initScale.z * audioDistort, speed));\n\t}\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n\n\n\n",
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nimport * as WEMath from 'WEMath';\n\n/* ────────────────────────────────────────────────\n   Script Properties\n────────────────────────────────────────────────── */\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'audioDistortScale',\n\t\tlabel: 'Audio responsiveness multiplier',\n\t\tvalue: 1.1,\n\t\tmin: 0,\n\t\tmax: 10,\n\t\tinteger: false\n\t})\n\t.finish();\n\n/* ────────────────────────────────────────────────\n   Audio Settings\n────────────────────────────────────────────────── */\nconst frequencyResolution = 16; // Must be 16, 32, or 64 per channel\nconst sourceFrequency = 15; // Lower = bass, higher = treble\nconst smoothingRate = 20;   // Controls audio response smoothing\n\nconst audioBuffer = engine.registerAudioBuffers(frequencyResolution);\nlet smoothValue = 0.5;\n\n/* ────────────────────────────────────────────────\n   State Variables\n────────────────────────────────────────────────── */\nlet hover = false;\nlet baseScale = new Vec3(1, 1, 1);\nlet targetScale = 1.0;\nlet currentScale = new Vec3(1, 1, 1);\n\n/* ────────────────────────────────────────────────\n   User Property Updates\n────────────────────────────────────────────────── */\nexport function applyUserProperties(changedUserProperties) {\n\t// Handle style-based scaling\n\tif (changedUserProperties.style !== undefined) {\n\t\tconst style = changedUserProperties.style;\n\t\ttargetScale = (style === 'style1') ? 1.0 : 1.0;\n\t\tbaseScale = new Vec3(targetScale, targetScale, targetScale);\n\t}\n\n\t// Update hover and speed-related settings\n\tif (scriptProperties.hoScale !== undefined) {\n\t\t// no-op, but ensures values are read\n\t}\n}\n\n/* ────────────────────────────────────────────────\n   Initialization\n────────────────────────────────────────────────── */\nexport function init(value) {\n\tbaseScale = value;\n\tcurrentScale = value;\n\treturn value;\n}\n\n/* ────────────────────────────────────────────────\n   Update Loop (called every frame)\n────────────────────────────────────────────────── */\nexport function update(value) {\n\t// Smooth audio responsiveness\n\tlet audioDelta = audioBuffer.average[sourceFrequency] - smoothValue;\n\tsmoothValue += audioDelta * engine.frametime * smoothingRate;\n\tsmoothValue = Math.min(1.0, Math.max(0.0, smoothValue));\n\n\tconst audioDistort = 1 + (smoothValue * scriptProperties.audioDistortScale);\n\tconst speed = scriptProperties.speed / 100;\n\n\t// Determine target scale based on hover and style\n\tconst hoverScale = hover ? scriptProperties.hoScale : 1.0;\n\tconst desiredScale = targetScale * hoverScale * audioDistort;\n\n\t// Smoothly interpolate (lerp) toward target\n\tconst lerpFactor = speed * engine.frametime * 60;\n\tconst newScaleValue = WEMath.mix(currentScale.x, desiredScale, lerpFactor);\n\n\tcurrentScale = new Vec3(newScaleValue, newScaleValue, newScaleValue);\n\treturn currentScale;\n}\n\n/* ────────────────────────────────────────────────\n   Mouse Hover Events\n────────────────────────────────────────────────── */\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n",
 				"scriptproperties" : 
 				{
-					"audioDistortScale" : 0.1,
-					"hoScale" : 1.1,
-					"speed" : 25
+					"audioDistortScale" : 0.13,
+					"hoScale" : 1.13,
+					"speed" : 5
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
@@ -1054,6 +1054,22 @@
 				"user" : "togglemediadetection",
 				"value" : true
 			}
+		},
+		{
+			"disablepropagation" : false,
+			"id" : 193,
+			"name" : "",
+			"origin" : 
+			{
+				"script" : "'use strict';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'offsetX',\n\t\tlabel: 'X Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'offsetY',\n\t\tlabel: 'Y Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initial = new Vec3(0,0,0);\nlet targetX = 0;\nlet targetY = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tvalue.x = value.x + (targetX - value.x) * lerpFactor;\n\tvalue.y = value.y + (targetY - value.y) * lerpFactor;\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitial = value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\ttargetX = initial.x;\n\t\t\ttargetY = initial.y;\n\t\t} else {\n\t\t\ttargetX = initial.x + scriptProperties.offsetX;\n\t\t\ttargetY = initial.y + scriptProperties.offsetY;\n\t\t}\n\t}\n}\n",
+				"scriptproperties" : 
+				{
+					"offsetX" : -180,
+					"offsetY" : -230
+				},
+				"value" : "1280.00000 720.00000 0.00000"
+			},
+			"solid" : true
 		},
 		{
 			"alpha" : 
@@ -1139,6 +1155,7 @@
 				"value" : 1.0
 			},
 			"anchor" : "none",
+			"angles" : "0.00000 -0.00000 0.00000",
 			"backgroundbrightness" : 1.0,
 			"backgroundcolor" : "0.00000 0.00000 0.00000",
 			"blockalign" : false,
@@ -1148,7 +1165,7 @@
 			"disablepropagation" : false,
 			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
 			"horizontalalign" : "left",
-			"id" : 118,
+			"id" : 228,
 			"limitrows" : false,
 			"limituseellipsis" : false,
 			"limitwidth" : false,
@@ -1306,13 +1323,14 @@
 					},
 					"relative" : true
 				},
-				"value" : "1800.00000 970.00000 0.00000"
+				"value" : "520.00000 250.00000 0.00000"
 			},
 			"padding" : 32,
 			"parallaxDepth" : "0.50000 0.50000",
+			"parent" : 193,
 			"pointsize" : 
 			{
-				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
 				"value" : 22.0
 			},
 			"scale" : 
@@ -1437,6 +1455,7 @@
 				"value" : 1.0
 			},
 			"anchor" : "none",
+			"angles" : "0.00000 -0.00000 0.00000",
 			"backgroundbrightness" : 1.0,
 			"backgroundcolor" : "0.00000 0.00000 0.00000",
 			"blockalign" : false,
@@ -1446,7 +1465,7 @@
 			"disablepropagation" : false,
 			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
 			"horizontalalign" : "left",
-			"id" : 152,
+			"id" : 229,
 			"limitrows" : false,
 			"limituseellipsis" : false,
 			"limitwidth" : false,
@@ -1604,13 +1623,14 @@
 					},
 					"relative" : true
 				},
-				"value" : "1800.00000 790.00000 0.00000"
+				"value" : "520.00000 70.00000 0.00000"
 			},
 			"padding" : 0,
 			"parallaxDepth" : "0.50000 0.50000",
+			"parent" : 193,
 			"pointsize" : 
 			{
-				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
+				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
 				"value" : 15.0
 			},
 			"scale" : 
@@ -1655,6 +1675,32 @@
 			}
 		},
 		{
+			"disablepropagation" : false,
+			"id" : 185,
+			"name" : "",
+			"origin" : 
+			{
+				"script" : "'use strict';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'offsetX',\n\t\tlabel: 'X Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'offsetY',\n\t\tlabel: 'Y Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initial = new Vec3(0,0,0);\nlet targetX = 0;\nlet targetY = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tvalue.x = value.x + (targetX - value.x) * lerpFactor;\n\tvalue.y = value.y + (targetY - value.y) * lerpFactor;\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitial = value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\ttargetX = initial.x;\n\t\t\ttargetY = initial.y;\n\t\t} else {\n\t\t\ttargetX = initial.x + scriptProperties.offsetX;\n\t\t\ttargetY = initial.y + scriptProperties.offsetY;\n\t\t}\n\t}\n}\n",
+				"scriptproperties" : 
+				{
+					"offsetX" : 0,
+					"offsetY" : -220
+				},
+				"value" : "1280.00000 720.00000 0.00000"
+			},
+			"scale" : 
+			{
+				"script" : "'use strict';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'targetScale',\n\t\tlabel: 'Scale when far away',\n\t\tvalue: 1,\n\t\tmin: 0,\n\t\tmax: 1,\n\t\tinteger: false\n\t})\n\n\t.finish();\n\nlet initial = new Vec3(0,0,0);\nlet targetScale = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tlet newScale = value.x + (targetScale - value.x) * lerpFactor\n\tvalue.x = new Vec3(newScale, newScale, newScale);\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitial = value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\ttargetScale = initial.x;\n\t\t} else {\n\t\t\ttargetScale = scriptProperties.targetScale;\n\t\t}\n\t}\n}\n",
+				"scriptproperties" : 
+				{
+					"targetScale" : 0.66000003
+				},
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"solid" : true
+		},
+		{
+			"angles" : "0.00000 -0.00000 0.00000",
 			"animationlayers" : 
 			[
 				{
@@ -1811,10 +1857,14 @@
 			"id" : 47,
 			"image" : "models/kobeni character sheet.json",
 			"name" : "kobeni character sheet",
-			"origin" : "1280.00000 720.00000 0.00000",
 			"parallaxDepth" : "0.75000 0.75000",
+			"parent" : 185,
 			"perspective" : true,
-			"scale" : "0.75000 0.75000 0.75000",
+			"scale" : 
+			{
+				"script" : "'use strict';\n\n// Define the target position and scale globally to persist their values\n// between update calls.\nlet targetScale = 0.75;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tlet newScale = value.x + (targetScale - value.x) * lerpFactor;\n\tvalue = new Vec3(newScale, newScale, newScale);\n\n\treturn value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\t\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style == \"style1\") {\n\t\t\ttargetScale = 0.75;\n\t\t} else {\n\t\t\ttargetScale = 0.5;\n\t\t}\n\t}\n}",
+				"value" : "0.75000 0.75000 0.75000"
+			},
 			"size" : "2848.00000 2042.00000"
 		},
 		{
@@ -1843,15 +1893,47 @@
 		},
 		{
 			"angles" : "0.00000 -0.00000 0.00000",
+			"disablepropagation" : false,
+			"id" : 186,
+			"name" : "",
+			"origin" : 
+			{
+				"script" : "'use strict';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'offsetX',\n\t\tlabel: 'X Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'offsetY',\n\t\tlabel: 'Y Offset when far away',\n\t\tvalue: 0,\n\t\tmin: -500,\n\t\tmax: 500,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initial = new Vec3(0,0,0);\nlet targetX = 0;\nlet targetY = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tvalue.x = value.x + (targetX - value.x) * lerpFactor;\n\tvalue.y = value.y + (targetY - value.y) * lerpFactor;\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitial = value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\ttargetX = initial.x;\n\t\t\ttargetY = initial.y;\n\t\t} else {\n\t\t\ttargetX = initial.x + scriptProperties.offsetX;\n\t\t\ttargetY = initial.y + scriptProperties.offsetY;\n\t\t}\n\t}\n}\n",
+				"scriptproperties" : 
+				{
+					"offsetX" : -65,
+					"offsetY" : 25
+				},
+				"value" : "0.00000 0.00000 0.00000"
+			},
+			"parent" : 185,
+			"scale" : 
+			{
+				"script" : "'use strict';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'targetScale',\n\t\tlabel: 'Scale when far away',\n\t\tvalue: 1,\n\t\tmin: 0,\n\t\tmax: 1,\n\t\tinteger: false\n\t})\n\n\t.finish();\n\nlet initial = new Vec3(0,0,0);\nlet targetScale = 0;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tlet newScale = value.x + (targetScale - value.x) * lerpFactor\n\tvalue.x = new Vec3(newScale, newScale, newScale);\n\n\treturn value;\n}\n\nexport function init(value) {\n\tinitial = value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style === \"style1\") {\n\t\t\ttargetScale = initial.x;\n\t\t} else {\n\t\t\ttargetScale = scriptProperties.targetScale;\n\t\t}\n\t}\n}\n",
+				"scriptproperties" : 
+				{
+					"targetScale" : 0.66000003
+				},
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"solid" : true
+		},
+		{
+			"angles" : "0.00000 -0.00000 0.00000",
 			"castshadow" : false,
 			"clampuvs" : true,
 			"disablepropagation" : false,
-			"id" : 35,
+			"id" : 248,
 			"image" : "models/chair piece.json",
 			"name" : "chair piece",
-			"origin" : "1490.45081 648.80188 0.00000",
+			"origin" : "210.00000 -70.00000 0.00000",
 			"parallaxDepth" : "0.80000 0.80000",
-			"scale" : "0.75000 0.75000 0.75000",
+			"parent" : 186,
+			"scale" : 
+			{
+				"script" : "'use strict';\n\n// Define the target position and scale globally to persist their values\n// between update calls.\nlet targetScale = 0.75;\n\n/**\n * @param {Vec3} value - for property 'origin'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\tconst lerpFactor = 0.05; \n\tlet newScale = value.x + (targetScale - value.x) * lerpFactor;\n\tvalue = new Vec3(newScale, newScale, newScale);\n\n\treturn value;\n}\n\n/**\n * Called when a user property changes, allowing us to update our targets.\n * @param {object} changedUserProperties - The properties that have changed.\n */\nexport function applyUserProperties(changedUserProperties) {\n\t// Check if the 'style' property was the one that changed\n\t\tif (changedUserProperties.style !== undefined) {\n\t\tlet style = changedUserProperties.style; // Get the new value (\"style1\" or \"style2\")\n\n\t\t// Update the global target variables based on the new style\n\t\tif (style == \"style1\") {\n\t\t\ttargetScale = 0.75;\n\t\t} else {\n\t\t\ttargetScale = 0.5;\n\t\t}\n\t}\n}",
+				"value" : "0.75000 0.75000 0.75000"
+			},
 			"size" : "314.00000 619.00000"
 		},
 		{

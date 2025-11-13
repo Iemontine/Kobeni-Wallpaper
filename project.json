@@ -1,6 +1,6 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "[Version 3.1]\r\nIf anyone has issues with or suggestions for it, please let me know what you think!\r\n\r\nFeatures\r\n1. Puppet warp idle animation by me!\r\n2. Audio visualizer, audio responsive visualizer\r\n3. Media integration / media detection (song title, artist, and album cover).\r\n4. Customizable Date/time visuals\r\n5. Basic intro hover animations\r\n5. FX including smoke trail, floating ash, god rays, CRT & VHS effects\r\n7. Customizable user settings\r\n\r\n\"\"\"\"rkgk\"\"\"\" art by xilmo1\r\n\r\ntags: kobeni higashiyama, 東山コベニ, puppet warp, high quality, anime, chainsaw man girl",
+	"description" : "[Version 2025.11.13]\nIf anyone has issues with or suggestions for it, please let me know what you think!\n\nFeatures\n1. Puppet warp idle animation by me!\n2. Audio visualizer, audio responsive visualizer\n3. Media integration / media detection (song title, artist, and album cover).\n4. Customizable Date/time visuals\n5. Basic intro hover animations\n5. FX including smoke trail, floating ash, god rays, CRT & VHS effects\n7. Customizable user settings\n8. Far away and close up styles for desktop icon space\n\n\"\"\"\"rkgk\"\"\"\" art by xilmo1\n\ntags: kobeni higashiyama, 東山コベニ, puppet warp, high quality, anime, chainsaw man girl",
 	"file" : "scene.json",
 	"general" : 
 	{
@@ -131,7 +131,7 @@
 				"order" : 101,
 				"text" : "Style",
 				"type" : "combo",
-				"value" : "style1"
+				"value" : "style2"
 			},
 			"textscale" : 
 			{
@@ -183,7 +183,7 @@
 	"tags" : [ "Anime" ],
 	"title" : "THEATER KOBENI (Customizable) - Chainsaw Man",
 	"type" : "Scene",
-	"version" : 11,
+	"version" : 13,
 	"visibility" : "public",
 	"workshopid" : "3604242511",
 	"workshopurl" : "steam://url/CommunityFilePage/3604242511"
