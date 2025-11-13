@@ -1,8 +1,8 @@
 {
 	"camera" : 
 	{
-		"center" : "-16.05638 0.00000 -1.00000",
-		"eye" : "-16.05638 0.00000 0.00000",
+		"center" : "196.86507 423.05042 -1.00000",
+		"eye" : "196.86507 423.05042 0.00000",
 		"up" : "0.00000 1.00000 0.00000"
 	},
 	"general" : 
@@ -196,7 +196,6 @@
 			"visible" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n/**\n * @param {Boolean} value - for property 'visible'\n * @return {Boolean} - update current property value\n */\nexport function update(value) {\n\treturn value;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
-				"user" : "durationbar",
 				"value" : true
 			}
 		},
@@ -260,7 +259,7 @@
 			"anchor" : "none",
 			"backgroundbrightness" : 1.0,
 			"backgroundcolor" : "0.00000 0.00000 0.00000",
-			"blockalign" : false,
+			"blockalign" : true,
 			"castshadow" : false,
 			"clampuvs" : true,
 			"depthtest" : "enabled",
@@ -269,10 +268,10 @@
 			"horizontalalign" : "right",
 			"id" : 114,
 			"limitrows" : true,
-			"limituseellipsis" : false,
+			"limituseellipsis" : true,
 			"limitwidth" : true,
 			"maxrows" : 1,
-			"maxwidth" : 954.0,
+			"maxwidth" : 850.0,
 			"name" : "Song Title",
 			"opaquebackground" : false,
 			"origin" : 
@@ -408,9 +407,9 @@
 					"relative" : true
 				},
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
-				"value" : "960.00000 900.00000 0.00000"
+				"value" : "960.00000 930.00000 0.00000"
 			},
-			"padding" : 32,
+			"padding" : 0,
 			"parallaxDepth" : "0.50000 0.50000",
 			"pointsize" : 
 			{
@@ -437,7 +436,7 @@
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nvar mediaData = \"\";\n\n/**\n * @param {String} value - for property 'text'\n * @return {String} - update current property value\n */\nexport function update(value) {\n\treturn mediaData;\n}\n\n/**\n * @param {MediaPropertiesEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tmediaData = event.title;\n}\n",
 				"value" : "Song Title"
 			},
-			"verticalalign" : "bottom",
+			"verticalalign" : "top",
 			"visible" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
@@ -505,7 +504,7 @@
 			"anchor" : "none",
 			"backgroundbrightness" : 1.0,
 			"backgroundcolor" : "0.00000 0.00000 0.00000",
-			"blockalign" : false,
+			"blockalign" : true,
 			"castshadow" : false,
 			"clampuvs" : true,
 			"depthtest" : "enabled",
@@ -514,10 +513,10 @@
 			"horizontalalign" : "right",
 			"id" : 116,
 			"limitrows" : true,
-			"limituseellipsis" : false,
+			"limituseellipsis" : true,
 			"limitwidth" : true,
 			"maxrows" : 1,
-			"maxwidth" : 954.0,
+			"maxwidth" : 850.0,
 			"name" : "Artist",
 			"opaquebackground" : false,
 			"origin" : 
@@ -653,9 +652,9 @@
 					"relative" : true
 				},
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
-				"value" : "960.00000 882.54761 0.00000"
+				"value" : "960.00000 880.00000 0.00000"
 			},
-			"padding" : 32,
+			"padding" : 0,
 			"parallaxDepth" : "0.50000 0.50000",
 			"pointsize" : 
 			{
@@ -698,7 +697,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.81081081,
+								"x" : -0.8108108,
 								"y" : -0.0
 							},
 							"frame" : 0,
@@ -726,7 +725,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 0.81081081,
+								"x" : 0.8108108,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -958,7 +957,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.91666667,
+								"x" : -0.91666669,
 								"y" : -0.0
 							},
 							"frame" : 51,
@@ -1084,40 +1083,20 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.72115386,
+								"x" : -1,
 								"y" : -0.1
 							},
-							"frame" : 52,
+							"frame" : 45,
 							"front" : 
 							{
 								"enabled" : true,
 								"magic" : true,
 								"x" : 1,
-								"y" : 0.04423077
+								"y" : 0.1
 							},
 							"lockangle" : true,
 							"locklength" : true,
 							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -0.82608694,
-								"y" : -0.1
-							},
-							"frame" : 75,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : 0.065217391
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 1
 						},
 						{
 							"back" : 
@@ -1132,7 +1111,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 0.5714286,
+								"x" : 0.80000001,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1184,7 +1163,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.88235295,
+								"x" : -1,
 								"y" : -0.0
 							},
 							"frame" : 0,
@@ -1192,7 +1171,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 1,
+								"x" : 0.66666669,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1204,27 +1183,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.86538464,
-								"y" : -0.0
-							},
-							"frame" : 52,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -1,
+								"x" : -0.66666669,
 								"y" : -0.0
 							},
 							"frame" : 90,
@@ -1232,7 +1191,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 0.73170733,
+								"x" : 1,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1247,7 +1206,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.88235295,
+								"x" : -1,
 								"y" : -0.0
 							},
 							"frame" : 0,
@@ -1255,7 +1214,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 1,
+								"x" : 0.66666669,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1267,27 +1226,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.86538464,
-								"y" : 12
-							},
-							"frame" : 52,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : -8.7692308
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : -71.310181
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -1,
+								"x" : -0.66666669,
 								"y" : -0.0
 							},
 							"frame" : 90,
@@ -1295,12 +1234,12 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 0.73170733,
+								"x" : 1,
 								"y" : 0
 							},
 							"lockangle" : true,
 							"locklength" : true,
-							"value" : -120
+							"value" : -110
 						}
 					],
 					"c2" : 
@@ -1310,7 +1249,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.88235295,
+								"x" : -1,
 								"y" : -0.0
 							},
 							"frame" : 0,
@@ -1318,7 +1257,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 1,
+								"x" : 0.66666669,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1330,27 +1269,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.86538464,
-								"y" : -0.0
-							},
-							"frame" : 52,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -1,
+								"x" : -0.66666669,
 								"y" : -0.0
 							},
 							"frame" : 90,
@@ -1358,7 +1277,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 0.73170733,
+								"x" : 1,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1383,7 +1302,7 @@
 					},
 					"relative" : true
 				},
-				"value" : "1800.00000 990.00000 0.00000"
+				"value" : "1800.00000 970.00000 0.00000"
 			},
 			"padding" : 32,
 			"parallaxDepth" : "0.50000 0.50000",
@@ -1405,7 +1324,7 @@
 			"size" : "376.00000 105.00000",
 			"text" : 
 			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nexport var scriptProperties = createScriptProperties()\n\t// Whether you want a 24h or 12h style format\n\t.addCheckbox({\n\t\tname: 'use24hFormat',\n\t\tlabel: 'ui_editor_properties_use_24h_format',\n\t\tvalue: true\n\t})\n\t// Whether you want to see the seconds or not\n\t.addCheckbox({\n\t\tname: 'showSeconds',\n\t\tlabel: 'ui_editor_properties_show_seconds',\n\t\tvalue: false\n\t})\n\t// This will be used to separate each element\n\t.addText({\n\t\tname: 'delimiter',\n\t\tlabel: 'ui_editor_properties_delimiter',\n\t\tvalue: ':'\n\t})\n\t.finish();\n\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n\tlet time = new Date();\n\tvar hours = time.getHours();\n\tif (!scriptProperties.use24hFormat) {\n\t\thours %= 12;\n\t\tif (hours == 0) {\n\t\t\thours = 12;\n\t\t}\n\t}\n\thours = (\"00\" + hours).slice(-2);\n\tlet minutes = (\"00\" + time.getMinutes()).slice(-2);\n\tvalue = hours + scriptProperties.delimiter + minutes;\n\tif (scriptProperties.showSeconds) {\n\t\tlet seconds = (\"00\" + time.getSeconds()).slice(-2);\n\t\tvalue += scriptProperties.delimiter + seconds;\n\t}\n\treturn value;\n}\n",
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nexport var scriptProperties = createScriptProperties()\n\t// Whether you want a 24h or 12h style format\n\t.addCheckbox({\n\t\tname: 'use24hFormat',\n\t\tlabel: 'ui_editor_properties_use_24h_format',\n\t\tvalue: true\n\t})\n\t// Whether you want to see the seconds or not\n\t.addCheckbox({\n\t\tname: 'showSeconds',\n\t\tlabel: 'ui_editor_properties_show_seconds',\n\t\tvalue: false\n\t})\n\t// This will be used to separate each element\n\t.addText({\n\t\tname: 'delimiter',\n\t\tlabel: 'ui_editor_properties_delimiter',\n\t\tvalue: ':'\n\t})\n\t.finish();\n\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n\tlet time = new Date();\n\tlet hours = time.getHours();\n\tlet ampm = '';\n\n\t// Handle 12-hour format and AM/PM indicator\n\tif (!scriptProperties.use24hFormat) {\n\t\tampm = hours >= 12 ? ' PM' : ' AM';\n\t\thours %= 12;\n\t\tif (hours === 0) {\n\t\t\thours = 12;\n\t\t}\n\t}\n\n\thours = (\"00\" + hours).slice(-2);\n\tlet minutes = (\"00\" + time.getMinutes()).slice(-2);\n\tvalue = hours + scriptProperties.delimiter + minutes;\n\n\tif (scriptProperties.showSeconds) {\n\t\tlet seconds = (\"00\" + time.getSeconds()).slice(-2);\n\t\tvalue += scriptProperties.delimiter + seconds;\n\t}\n\n\t// Append AM/PM if using 12-hour format\n\tif (!scriptProperties.use24hFormat) {\n\t\tvalue += ampm;\n\t}\n\n\treturn value;\n}\n",
 				"scriptproperties" : 
 				{
 					"delimiter" : ":",
@@ -1442,7 +1361,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.88235295,
+								"x" : -0.80000001,
 								"y" : -0.0
 							},
 							"frame" : 0,
@@ -1462,40 +1381,20 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.72115386,
+								"x" : -1,
 								"y" : -0.1
 							},
-							"frame" : 52,
+							"frame" : 45,
 							"front" : 
 							{
 								"enabled" : true,
 								"magic" : true,
 								"x" : 1,
-								"y" : 0.04423077
+								"y" : 0.1
 							},
 							"lockangle" : true,
 							"locklength" : true,
 							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -0.82608694,
-								"y" : -0.1
-							},
-							"frame" : 75,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : 0.065217391
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 1
 						},
 						{
 							"back" : 
@@ -1510,7 +1409,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 0.5714286,
+								"x" : 0.80000001,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1605,7 +1504,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.88235295,
+								"x" : -1,
 								"y" : -0.0
 							},
 							"frame" : 0,
@@ -1613,7 +1512,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 1,
+								"x" : 0.66666669,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1625,27 +1524,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : -0.86538464,
-								"y" : -6.2714658
-							},
-							"frame" : 52,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : 4.5829945
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -1,
+								"x" : -0.66666669,
 								"y" : -0.0
 							},
 							"frame" : 90,
@@ -1653,7 +1532,7 @@
 							{
 								"enabled" : true,
 								"magic" : true,
-								"x" : 0.73170733,
+								"x" : 1,
 								"y" : 0
 							},
 							"lockangle" : true,
@@ -1721,7 +1600,7 @@
 					},
 					"relative" : true
 				},
-				"value" : "1800.00000 798.00000 0.00000"
+				"value" : "1800.00000 790.00000 0.00000"
 			},
 			"padding" : 0,
 			"parallaxDepth" : "0.50000 0.50000",
@@ -1730,30 +1609,37 @@
 				"script" : "'use strict';\n\nlet defaultSize = 0;\nlet currentScale = 1;\n\nexport function init(value) {\n    defaultSize = value;\n}\n\nexport function applyUserProperties(props) {\n    const p = props.textscale;\n    if (!p) return;\n\n    // Try multiple known formats Wallpaper Engine can send\n    let raw =\n        p.value ??\n        p.float ??\n        p.number ??\n        p.text ??\n        p; // sometimes p itself is numeric\n\n    raw = Number(raw);\n\n    if (!Number.isFinite(raw)) {\n        console.log('[textscale] Could not parse value from', p);\n        return;\n    }\n\n    // treat 100 as 1.0\n    currentScale = raw > 10 ? raw / 100 : raw;\n    if (currentScale < 0) currentScale = 0;\n\n    console.log('[textscale] final scale =', currentScale, '(raw =', raw, ')');\n}\n\nexport function update(value) {\n    const base = defaultSize || value || 0;\n    return base * currentScale;\n}\n",
 				"value" : 15.0
 			},
+			"scale" : 
+			{
+				"script" : "'use strict';\n\nimport * as WEMath from 'WEMath';\n\nexport var scriptProperties = createScriptProperties()\n\t.addSlider({\n\t\tname: 'hoScale',\n\t\tlabel: 'Hover over scale multiplier',\n\t\tvalue: 1.5,\n\t\tmin: 0.1,\n\t\tmax: 2,\n\t\tinteger: false\n\t})\n\t.addSlider({\n\t\tname: 'speed',\n\t\tlabel: 'Scale change speed',\n\t\tvalue: 10,\n\t\tmin: 1,\n\t\tmax: 100,\n\t\tinteger: false\n\t})\n\t.finish();\n\nlet initScale, newScale, hover = false, propertyCheck = true, speed;\n\nexport function update(value) {\n\tif (hover) \n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, newScale.x, speed), WEMath.mix(value.y, newScale.y, speed), WEMath.mix(value.z, newScale.z, speed));\n\t}\n\telse\n\t{\n\t\tvalue = new Vec3(WEMath.mix(value.x, initScale.x, speed), WEMath.mix(value.y, initScale.y, speed), WEMath.mix(value.z, initScale.z, speed));\n\t}\n\treturn value;\n}\n\nexport function init(value) {\n\tinitScale = value;\n\treturn value;\n}\n\nexport function cursorEnter(event) {\n\thover = true;\n}\n\nexport function cursorLeave(event) {\n\thover = false;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n\tif (scriptProperties.hoScale != undefined && propertyCheck)\n\t{\n\t\tnewScale = new Vec3(initScale.multiply(scriptProperties.hoScale));\n\t\tspeed = scriptProperties.speed/100;\n\t\tpropertyCheck = false;\n\t}\n\t\n}\n",
+				"scriptproperties" : 
+				{
+					"hoScale" : 1.1,
+					"speed" : 10
+				},
+				"value" : "1.00000 1.00000 1.00000"
+			},
 			"size" : "207.00000 72.00000",
 			"text" : 
 			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2108644365';\n\n\nexport var scriptProperties = createScriptProperties()\n  .addCombo({\n    name: 'monthFormat',\n    label: 'Month Format',\n    options: [{\n      label: 'Numeric',\n      value: '1'\n    }, {\n      label: 'Abbreviated',\n      value: '2'\n    }, {\n      label: 'Full',\n      value: '3'\n    }]\n  })\n  .addCombo({\n    name: 'dayFormat',\n    label: 'Day Format',\n    options: [{\n      label: 'Abbreviated',\n      value: '1'\n    }, {\n      label: 'Full',\n      value: '2'\n    }]\n  })\n  .addCheckbox({\n    name: 'showDay',\n    label: 'Show Day',\n    value: false\n  })\n  .addCheckbox({\n    name: 'alignVertical',\n    label: 'Align Day Vertically',\n    value: false\n  })\n  .addCheckbox({\n    name: 'useDelimiter',\n    label: 'Use Delimiter',\n    value: false\n  })\n  .addText({\n    name: 'addDelimiter',\n    label: 'Delimiter',\n    value: '/'\n  })\n  .finish();\n\n\nlet months;\nlet day;\nvar delimiterValue;\nvar newLine;\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n  if (scriptProperties.useDelimiter == true) {\n    delimiterValue = scriptProperties.addDelimiter\n  }\n  if (scriptProperties.useDelimiter == false) {\n    delimiterValue = [\n      ' '\n    ]\n  }\n  if (scriptProperties.alignVertical == true) {\n    newLine = [\n      '\\n'\n    ]\n  }\n  if (scriptProperties.alignVertical == false) {\n    newLine = [\n      ''\n    ]\n  }\n  if (scriptProperties.monthFormat == 1) {\n    months = [\n      '1',\n      '2',\n      '3',\n      '4',\n      '5',\n      '6',\n      '7',\n      '8',\n      '9',\n      '10',\n      '11',\n      '12'\n    ]\n  }\n  if (scriptProperties.monthFormat == 2) {\n    months = [\n      'Jan',\n      'Feb',\n      'Mar',\n      'Apr',\n      'May',\n      'Jun',\n      'Jul',\n      'Aug',\n      'Sep',\n      'Oct',\n      'Nov',\n      'Dec'\n    ]\n  }\n  if (scriptProperties.monthFormat == 3) {\n    months = [\n      'January',\n      'February',\n      'March',\n      'April',\n      'May',\n      'June',\n      'July',\n      'August',\n      'September',\n      'October',\n      'November',\n      'December'\n    ]\n  }\n  if (scriptProperties.dayFormat == 1) {\n    day = [\n      'Sun',\n      'Mon',\n      'Tue',\n      'Wed',\n      'Thu',\n      'Fri',\n      '\\nSat'\n    ]\n  }\n  if (scriptProperties.dayFormat == 2) {\n    day = [\n      'Sunday',\n      'Monday',\n      'Tuesday',\n      'Wednesday',\n      'Thursday',\n      'Friday',\n      '\\nSaturday'\n    ]\n  }\n  let date = new Date(); {\n    if (scriptProperties.showDay == true) {\n      return day[date.getDay()] + newLine + ' ' + date.getDate() + delimiterValue + months[date.getMonth()] + delimiterValue + date.getFullYear();\n    }\n    if (scriptProperties.showDay == false) {\n      return date.getDate() + delimiterValue + months[date.getMonth()] + delimiterValue + date.getFullYear();\n    }\n  }\n}\n",
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2108644365';\n\nexport var scriptProperties = createScriptProperties()\n  .addText({\n    name: 'dateFormat',\n    label: 'Date Format (e.g. MM/DD/YYYY, Month Day, Year, DD-MM-YY)',\n    value: 'MM/DD/YYYY'\n  })\n  .addCheckbox({\n    name: 'showDay',\n    label: 'Show Day',\n    value: false\n  })\n  .addCheckbox({\n    name: 'alignVertical',\n    label: 'Align Day Vertically',\n    value: false\n  })\n  .finish();\n\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n  // Raw user-provided format (default fallback)\n  const rawFormat = (scriptProperties.dateFormat || 'MM/DD/YYYY').toString();\n\n  // Date values\n  const d = new Date();\n  const monthIndex = d.getMonth(); // 0-11\n  const dayIndex = d.getDay(); // 0 = Sunday\n  const dateOfMonth = d.getDate(); // 1..31\n  const yearFull = d.getFullYear().toString();\n  const yearShort = yearFull.slice(-2);\n\n  const monthNumericPad = (monthIndex + 1).toString().padStart(2, '0');\n  const monthNumeric = (monthIndex + 1).toString();\n  const monthAbbrev = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][monthIndex];\n  const monthFull = ['January','February','March','April','May','June','July','August','September','October','November','December'][monthIndex];\n\n  const dayPad = dateOfMonth.toString().padStart(2, '0');\n  const dayNoPad = dateOfMonth.toString();\n\n  const dowAbbrev = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dayIndex];\n  const dowFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dayIndex];\n\n  // Replacement map (keys uppercase)\n  const map = {\n    'YYYY': yearFull,\n    'YEAR': yearFull,\n    'YY': yearShort,\n\n    'MONTH': monthFull,\n    'MON': monthAbbrev,\n    'MM': monthNumericPad,\n    'M': monthNumeric,\n\n    'DAYOFWEEK': dowFull,\n    'DOW': dowAbbrev,\n\n    'DD': dayPad,\n    'DAY': dayNoPad,\n    'D': dayNoPad\n  };\n\n  // Build a single regex that matches any supported token (longer tokens first)\n  const tokenKeys = Object.keys(map).sort((a,b) => b.length - a.length);\n  const tokenRegex = new RegExp(tokenKeys.join('|'), 'gi');\n\n  // First convert escaped newlines \\n -> real newline\n  let result = rawFormat.replace(/\\\\n/gi, '\\n');\n\n  // Single-pass replacement using replacer function — prevents re-replacement inside inserted values\n  result = result.replace(tokenRegex, function(match) {\n    const key = match.toUpperCase();\n    return (key in map) ? map[key] : match;\n  });\n\n  // Prepend day-of-week if requested (keeps original behaviour)\n  if (scriptProperties.showDay) {\n    const separator = scriptProperties.alignVertical ? '\\n' : ' ';\n    result = dowFull + separator + result;\n  }\n\n  return result;\n}\n",
 				"scriptproperties" : 
 				{
-					"addDelimiter" : 
-					{
-						"user" : "datetimedelimiter",
-						"value" : "/"
-					},
 					"alignVertical" : 
 					{
 						"user" : "datetimealigndayvertically",
-						"value" : true
+						"value" : false
 					},
-					"dayFormat" : "2",
-					"monthFormat" : "1",
+					"dateFormat" : 
+					{
+						"user" : "dateformategmmddyyyymonthdayyearddmmyy",
+						"value" : "MM/DD/YYYY"
+					},
 					"showDay" : 
 					{
 						"user" : "datetimeshowday",
-						"value" : true
-					},
-					"useDelimiter" : true
+						"value" : false
+					}
 				},
 				"value" : "<Date>"
 			},
@@ -1808,7 +1694,7 @@
 				{
 					"file" : "effects/shake/effect.json",
 					"id" : 293,
-					"name" : "blink",
+					"name" : "eye blink",
 					"passes" : 
 					[
 						{
@@ -1821,7 +1707,7 @@
 								"bounds" : "0.99 1.002",
 								"friction" : "1 1.25",
 								"speed" : 1,
-								"strength" : 0.16
+								"strength" : 0.163
 							},
 							"id" : 294,
 							"textures" : 
@@ -1890,6 +1776,32 @@
 						}
 					],
 					"visible" : true
+				},
+				{
+					"file" : "effects/shake/effect.json",
+					"id" : 129,
+					"name" : "face",
+					"passes" : 
+					[
+						{
+							"constantshadervalues" : 
+							{
+								"bounds" : "0 1",
+								"friction" : "1 1",
+								"speed" : 1.0,
+								"strength" : 0.122
+							},
+							"id" : 130,
+							"textures" : 
+							[
+								null,
+								"masks/shake_mask_aa86ef67",
+								"masks/shake_mask_18a15539",
+								"masks/shake_mask_8d922e45"
+							]
+						}
+					],
+					"visible" : true
 				}
 			],
 			"id" : 47,
@@ -1900,6 +1812,30 @@
 			"perspective" : true,
 			"scale" : "0.75000 0.75000 0.75000",
 			"size" : "2848.00000 2042.00000"
+		},
+		{
+			"attachment" : "Attachment",
+			"disablepropagation" : false,
+			"id" : 221,
+			"instanceoverride" : 
+			{
+				"alpha" : 0.38,
+				"id" : 222,
+				"rate" : 0.5,
+				"size" : 2.3,
+				"speed" : 2.0
+			},
+			"name" : "Vapor (double)",
+			"origin" : "-13.55241 11.61637 0.00000",
+			"parent" : 47,
+			"particle" : "particles/presets/vapor1.json",
+			"scale" : "1.33333 1.33333 1.33333",
+			"solid" : true,
+			"visible" : 
+			{
+				"user" : "fxissheblazingit",
+				"value" : true
+			}
 		},
 		{
 			"angles" : "0.00000 -0.00000 0.00000",
@@ -1913,6 +1849,25 @@
 			"parallaxDepth" : "0.80000 0.80000",
 			"scale" : "0.75000 0.75000 0.75000",
 			"size" : "314.00000 619.00000"
+		},
+		{
+			"disablepropagation" : false,
+			"id" : 154,
+			"instanceoverride" : 
+			{
+				"alpha" : 0.23999999,
+				"count" : 2.0,
+				"id" : 157
+			},
+			"name" : "Ash",
+			"origin" : "1280.00000 720.00000 0.00000",
+			"particle" : "particles/presets/ash.json",
+			"solid" : true,
+			"visible" : 
+			{
+				"user" : "fxfloatingash",
+				"value" : true
+			}
 		},
 		{
 			"castshadow" : false,

@@ -1,0 +1,133 @@
+{
+	"children" : null,
+	"controlpoint" : 
+	[
+		{
+			"angles" : null,
+			"id" : 0
+		},
+		{
+			"angles" : null,
+			"flags" : 1,
+			"id" : 1
+		},
+		{
+			"angles" : null,
+			"id" : 2
+		},
+		{
+			"angles" : null,
+			"id" : 3
+		},
+		{
+			"angles" : null,
+			"id" : 4
+		},
+		{
+			"angles" : null,
+			"id" : 5
+		},
+		{
+			"angles" : null,
+			"id" : 6
+		},
+		{
+			"angles" : null,
+			"id" : 7
+		}
+	],
+	"emitter" : 
+	[
+		{
+			"distancemax" : 5,
+			"distancemin" : 0,
+			"flags" : 2,
+			"id" : 7,
+			"name" : "sphererandom",
+			"rate" : 8
+		}
+	],
+	"flags" : 1,
+	"initializer" : 
+	[
+		{
+			"id" : 2,
+			"max" : 2,
+			"min" : 2,
+			"name" : "lifetimerandom"
+		},
+		{
+			"id" : 3,
+			"max" : 120,
+			"min" : 90,
+			"name" : "sizerandom"
+		},
+		{
+			"id" : 4,
+			"max" : "184 184 184",
+			"min" : "206 206 206",
+			"name" : "colorrandom"
+		},
+		{
+			"id" : 5,
+			"name" : "turbulentvelocityrandom",
+			"phasemax" : 0,
+			"scale" : 0.1,
+			"speedmax" : 300,
+			"speedmin" : 300,
+			"timescale" : 0.1
+		},
+		{
+			"id" : 6,
+			"max" : "0 0 1.7453292519943295",
+			"name" : "rotationrandom"
+		}
+	],
+	"material" : "materials/presets/vapor0.json",
+	"maxcount" : 32,
+	"operator" : 
+	[
+		{
+			"drag" : 0.2,
+			"id" : 8,
+			"name" : "movement"
+		},
+		{
+			"fadeintime" : 0.1,
+			"fadeouttime" : 0.80000001,
+			"id" : 9,
+			"name" : "alphafade"
+		},
+		{
+			"endvalue" : 0,
+			"id" : 10,
+			"name" : "sizechange",
+			"starttime" : 0.5,
+			"startvalue" : 0.2
+		},
+		{
+			"endvalue" : "0.42745098039215684 0.42745098039215684 0.42745098039215684",
+			"id" : 11,
+			"name" : "colorchange",
+			"starttime" : 0.25
+		},
+		{
+			"controlpoint" : 1,
+			"id" : 12,
+			"name" : "controlpointattract",
+			"origin" : "0 0 0",
+			"scale" : -750,
+			"threshold" : 64
+		}
+	],
+	"renderer" : 
+	[
+		{
+			"id" : 1,
+			"name" : "rope",
+			"subdivision" : 3
+		}
+	],
+	"sequencemultiplier" : 2,
+	"starttime" : 0
+}

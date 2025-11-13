@@ -24952,6 +24952,15 @@
 	"poses" : [],
 	"puppet" : 
 	{
+		"attachments" : 
+		[
+			{
+				"id" : 178,
+				"name" : "Attachment",
+				"parent" : 112,
+				"transform" : "1 0 0 0 0 1 0 0 0 0 1 0 -13.7103 15.6391 0 1"
+			}
+		],
 		"blendshapes" : null,
 		"bones" : 
 		[
