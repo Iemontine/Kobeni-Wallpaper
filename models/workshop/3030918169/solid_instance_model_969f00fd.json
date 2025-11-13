@@ -1,5 +1,0 @@
-{
-	"instanced" : true,
-	"material" : "materials/util/solidlayer_instance.json",
-	"solidlayer" : true
-}
