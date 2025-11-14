@@ -1,6 +1,10 @@
 # Kobeni Wallpaper
 check it out on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3604242511)! also drop a rating ;)
 
+## Preview
+
+https://github.com/user-attachments/assets/b874ee6f-ca27-45f9-ab52-e3235f475f3c
+
 ## Features
 1. Puppet Warp animations by me!
 2. FX including smoke trail, floating ash, god rays, CRT & VHS effects
