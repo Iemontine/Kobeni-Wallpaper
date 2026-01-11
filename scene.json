@@ -1,8 +1,8 @@
 {
 	"camera" : 
 	{
-		"center" : "0.00000 0.00000 -1.00000",
-		"eye" : "0.00000 0.00000 0.00000",
+		"center" : "-137.60001 -108.80000 -1.00000",
+		"eye" : "-137.60001 -108.80000 0.00000",
 		"up" : "0.00000 1.00000 0.00000"
 	},
 	"general" : 
@@ -100,7 +100,7 @@
 							"condition" : "style2",
 							"name" : "style"
 						},
-						"value" : true
+						"value" : false
 					}
 				}
 			],
@@ -136,6 +136,51 @@
 				"value" : "1280.00000 720.00000 0.00000"
 			},
 			"solid" : true
+		},
+		{
+			"alignment" : "left",
+			"alpha" : 0.0,
+			"angles" : "0.00000 -0.00000 0.00000",
+			"castshadow" : false,
+			"clampuvs" : true,
+			"color" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n// NOTE:\n// Don't forget to make a 'Checkbox' property and connect the 'Tint color' to that new property\n\n// Primary color of the Media Cover\nvar newColor;\n\nvar window = {};\n\nexport var scriptProperties = createScriptProperties()\n    .addCheckbox({\n        name: 'dynamicBar',\n        label: 'Dynamic Bar',\n        value: false\n    })\n    .addColor({\n        name: 'barColor',\n        label: 'Bar Color',\n        value: (window.wallpaperPropertiesListener = {\n                    applyUserProperties: function(properties) {\n                    properties.barcolor;\n                    }\n                })\n    })\n    .finish();\n\n\n/**\n * @param {Vec3} value - for property 'color'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n    if (scriptProperties.dynamicBar == true) {\n        value = new Vec3(newColor);\n    } else {\n        // Changes color based on property 'Title Color'\n        value = new Vec3(scriptProperties.barColor);\n    }\n    return value;\n}\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n    if (event.hasThumbnail == true) {\n        newColor = event.primaryColor;\n    }\n}\n",
+				"scriptproperties" : 
+				{
+					"barColor" : 
+					{
+						"user" : "barcolor",
+						"value" : "0.00000 0.00000 0.00000"
+					},
+					"dynamicBar" : 
+					{
+						"user" : "dynamicbar",
+						"value" : false
+					}
+				},
+				"user" : "barcolor",
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"disablepropagation" : false,
+			"id" : 439,
+			"image" : "models/util/solidlayer.json",
+			"name" : "Duration Bar",
+			"origin" : "-1119.93213 97.91931 0.00000",
+			"parallaxDepth" : "0.50000 0.50000",
+			"parent" : 223,
+			"scale" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\nimport * as WEMath from 'WEMath';\n\n//--Global Data--\n// Your duration bar's x scale\nvar scaleX;\nvar scaleY = 0.07225;\nvar scaleZ = 1;\n\n// How long media is into the track in seconds\nvar position = 0;\n\n// How long media is in seconds\nvar duration = 0;\n\n// Media is Playing: 1\n// Media is Paused: 2\n// Media is Stopped: 0\nvar currentState = 0;\n\n//--------------------------------------------------------------------------------------------\nexport function applyUserProperties(changedUserProperties) {\n\tif (changedUserProperties.hasOwnProperty('barsize')) {\n        // Assign the changed property to a local variable\n        scaleX = changedUserProperties.barsize;\n    }\n}\n\n\n/**\n * @param {Vec3} value - for property 'scale'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\t// The bar will move while a song is playing, if paused it will adjust to where the user \t\tmoves the position of the song to \n\tif (currentState == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\t// Thank you https://steamcommunity.com/id/XerRag\n\t\tposition += engine.frametime;\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t} else if (currentState == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t}\n\treturn value;\n}\n\n/**\n * @param {MediaTimelineEvent} event\n */\nexport function mediaTimelineChanged(event) {\n\tposition = event.position;\n\tduration = event.duration;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tcurrentState = event.state;\n}\n",
+				"user" : "barsize",
+				"value" : "1.00000 1.00000 1.00000"
+			},
+			"size" : "800.00000 10.00000",
+			"visible" : 
+			{
+				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n/**\n * @param {Boolean} value - for property 'visible'\n * @return {Boolean} - update current property value\n */\nexport function update(value) {\n\treturn value;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
+				"value" : false
+			}
 		},
 		{
 			"angles" : "0.00000 -0.00000 0.00000",
@@ -233,51 +278,6 @@
 			"size" : "2800.00000 350.00000"
 		},
 		{
-			"alignment" : "left",
-			"alpha" : 0.0,
-			"angles" : "0.00000 -0.00000 0.00000",
-			"castshadow" : false,
-			"clampuvs" : true,
-			"color" : 
-			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n// NOTE:\n// Don't forget to make a 'Checkbox' property and connect the 'Tint color' to that new property\n\n// Primary color of the Media Cover\nvar newColor;\n\nvar window = {};\n\nexport var scriptProperties = createScriptProperties()\n    .addCheckbox({\n        name: 'dynamicBar',\n        label: 'Dynamic Bar',\n        value: false\n    })\n    .addColor({\n        name: 'barColor',\n        label: 'Bar Color',\n        value: (window.wallpaperPropertiesListener = {\n                    applyUserProperties: function(properties) {\n                    properties.barcolor;\n                    }\n                })\n    })\n    .finish();\n\n\n/**\n * @param {Vec3} value - for property 'color'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n    if (scriptProperties.dynamicBar == true) {\n        value = new Vec3(newColor);\n    } else {\n        // Changes color based on property 'Title Color'\n        value = new Vec3(scriptProperties.barColor);\n    }\n    return value;\n}\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n    if (event.hasThumbnail == true) {\n        newColor = event.primaryColor;\n    }\n}\n",
-				"scriptproperties" : 
-				{
-					"barColor" : 
-					{
-						"user" : "barcolor",
-						"value" : "0.00000 0.00000 0.00000"
-					},
-					"dynamicBar" : 
-					{
-						"user" : "dynamicbar",
-						"value" : false
-					}
-				},
-				"user" : "barcolor",
-				"value" : "1.00000 1.00000 1.00000"
-			},
-			"disablepropagation" : false,
-			"id" : 439,
-			"image" : "models/util/solidlayer.json",
-			"name" : "Duration Bar",
-			"origin" : "-1119.93213 97.91931 0.00000",
-			"parallaxDepth" : "0.50000 0.50000",
-			"parent" : 223,
-			"scale" : 
-			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\nimport * as WEMath from 'WEMath';\n\n//--Global Data--\n// Your duration bar's x scale\nvar scaleX;\nvar scaleY = 0.07225;\nvar scaleZ = 1;\n\n// How long media is into the track in seconds\nvar position = 0;\n\n// How long media is in seconds\nvar duration = 0;\n\n// Media is Playing: 1\n// Media is Paused: 2\n// Media is Stopped: 0\nvar currentState = 0;\n\n//--------------------------------------------------------------------------------------------\nexport function applyUserProperties(changedUserProperties) {\n\tif (changedUserProperties.hasOwnProperty('barsize')) {\n        // Assign the changed property to a local variable\n        scaleX = changedUserProperties.barsize;\n    }\n}\n\n\n/**\n * @param {Vec3} value - for property 'scale'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n\t// The bar will move while a song is playing, if paused it will adjust to where the user \t\tmoves the position of the song to \n\tif (currentState == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\t// Thank you https://steamcommunity.com/id/XerRag\n\t\tposition += engine.frametime;\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t} else if (currentState == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tvalue = new Vec3(WEMath.smoothStep(0, duration, position) * scaleX, scaleY, scaleZ)\n\t}\n\treturn value;\n}\n\n/**\n * @param {MediaTimelineEvent} event\n */\nexport function mediaTimelineChanged(event) {\n\tposition = event.position;\n\tduration = event.duration;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tcurrentState = event.state;\n}\n",
-				"user" : "barsize",
-				"value" : "1.00000 1.00000 1.00000"
-			},
-			"size" : "800.00000 10.00000",
-			"visible" : 
-			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n/**\n * @param {Boolean} value - for property 'visible'\n * @return {Boolean} - update current property value\n */\nexport function update(value) {\n\treturn value;\n}\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
-				"value" : true
-			}
-		},
-		{
 			"alpha" : 
 			{
 				"animation" : 
@@ -331,7 +331,7 @@
 						"wraploop" : null
 					}
 				},
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
+				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
 				"value" : 1.0
 			},
 			"anchor" : "none",
@@ -485,7 +485,7 @@
 					},
 					"relative" : true
 				},
-				"script" : "\n'use strict';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}",
+				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
 				"value" : "-320.00000 210.00000 0.00000"
 			},
 			"padding" : 0,
@@ -519,7 +519,6 @@
 			"verticalalign" : "top",
 			"visible" : 
 			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
 				"user" : "togglemediadetection",
 				"value" : true
 			}
@@ -578,7 +577,7 @@
 						"wraploop" : null
 					}
 				},
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}\n",
+				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
 				"value" : 1.0
 			},
 			"anchor" : "none",
@@ -732,7 +731,7 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}",
+				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
 				"value" : "-320.00000 160.00000 0.00000"
 			},
 			"padding" : 0,
@@ -844,6 +843,7 @@
 						"wraploop" : null
 					}
 				},
+				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
 				"value" : 0.0
 			},
 			"angles" : "0.00000 -0.00000 0.00000",
@@ -1031,7 +1031,7 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tif (event.hasThumbnail == false) {\n\t\tthisLayer.visible = false;\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\t\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse if (event.state !== MediaPlaybackEvent.PLAYBACK_PLAYING) {\n\t\tthisLayer.visible = true;\n\t\tthisObject.getAnimation().play();\n\t}\n\telse {\n\t\treturn\n\t}\n}",
+				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
 				"value" : "-960.00000 120.00000 0.00000"
 			},
 			"parallaxDepth" : "0.50000 0.50000",
@@ -1047,13 +1047,7 @@
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
-			"size" : "175.00000 175.00000",
-			"visible" : 
-			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
-				"user" : "togglemediadetection",
-				"value" : true
-			}
+			"size" : "175.00000 175.00000"
 		},
 		{
 			"disablepropagation" : false,
