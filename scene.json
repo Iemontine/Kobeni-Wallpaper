@@ -1,8 +1,8 @@
 {
 	"camera" : 
 	{
-		"center" : "-137.60001 -108.80000 -1.00000",
-		"eye" : "-137.60001 -108.80000 0.00000",
+		"center" : "0.00000 0.00000 -1.00000",
+		"eye" : "0.00000 0.00000 0.00000",
 		"up" : "0.00000 1.00000 0.00000"
 	},
 	"general" : 
@@ -275,7 +275,12 @@
 			"origin" : "0.00000 415.00000 0.00000",
 			"parallaxDepth" : "1.80000 1.80000",
 			"parent" : 223,
-			"size" : "2800.00000 350.00000"
+			"size" : "2800.00000 350.00000",
+			"visible" : 
+			{
+				"user" : "toggleaudiovisualizer",
+				"value" : true
+			}
 		},
 		{
 			"alpha" : 
@@ -331,7 +336,7 @@
 						"wraploop" : null
 					}
 				},
-				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : 1.0
 			},
 			"anchor" : "none",
@@ -485,7 +490,7 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : "-320.00000 210.00000 0.00000"
 			},
 			"padding" : 0,
@@ -519,8 +524,8 @@
 			"verticalalign" : "top",
 			"visible" : 
 			{
-				"user" : "togglemediadetection",
-				"value" : true
+				"script" : "'use strict';\n\nlet isMediaDetectionEnabled = false;\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tif (isMediaDetectionEnabled) {\n\t\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n\t}\n}\n\nexport function update(value) {\n\tvalue = isMediaDetectionEnabled;\n\treturn value;\n}\n\nexport function applyUserProperties(userProperties) {\n        if (userProperties.hasOwnProperty('togglemediadetection')) {\n            isMediaDetectionEnabled = userProperties.togglemediadetection;\n        }\n}",
+				"value" : false
 			}
 		},
 		{
@@ -577,7 +582,7 @@
 						"wraploop" : null
 					}
 				},
-				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : 1.0
 			},
 			"anchor" : "none",
@@ -731,7 +736,7 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : "-320.00000 160.00000 0.00000"
 			},
 			"padding" : 0,
@@ -761,9 +766,8 @@
 			"verticalalign" : "top",
 			"visible" : 
 			{
-				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n}\n",
-				"user" : "togglemediadetection",
-				"value" : true
+				"script" : "'use strict';\n\nlet isMediaDetectionEnabled = false;\n\n/**\n * @param {MediaPlaybackEvent} event\n */\nexport function mediaPlaybackChanged(event) {\n\tif (isMediaDetectionEnabled) {\n\t\tthisLayer.visible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n\t}\n}\n\nexport function update(value) {\n\tvalue = isMediaDetectionEnabled;\n\treturn value;\n}\n\nexport function applyUserProperties(userProperties) {\n        if (userProperties.hasOwnProperty('togglemediadetection')) {\n            isMediaDetectionEnabled = userProperties.togglemediadetection;\n        }\n}",
+				"value" : false
 			}
 		},
 		{
@@ -843,7 +847,7 @@
 						"wraploop" : null
 					}
 				},
-				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : 0.0
 			},
 			"angles" : "0.00000 -0.00000 0.00000",
@@ -1031,7 +1035,7 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n\nexport function mediaPlaybackChanged(event) {\n\tthisObject.getAnimation().play();\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING || event.state == MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : "-960.00000 120.00000 0.00000"
 			},
 			"parallaxDepth" : "0.50000 0.50000",
@@ -1047,7 +1051,8 @@
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
-			"size" : "175.00000 175.00000"
+			"size" : "175.00000 175.00000",
+			"visible" : false
 		},
 		{
 			"disablepropagation" : false,
