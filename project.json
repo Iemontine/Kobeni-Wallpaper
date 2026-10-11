@@ -182,8 +182,8 @@
 	"snapshotoverlay" : "",
 	"tags" : [ "Anime" ],
 	"title" : "THEATER KOBENI (Customizable) - Chainsaw Man",
-	"type" : "scene",
-	"version" : 16,
+	"type" : "Scene",
+	"version" : 17,
 	"visibility" : "public",
 	"workshopid" : "3604242511",
 	"workshopurl" : "steam://url/CommunityFilePage/3604242511"

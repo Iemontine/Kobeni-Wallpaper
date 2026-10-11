@@ -1,8 +1,8 @@
 {
 	"camera" : 
 	{
-		"center" : "0.00000 0.00000 -1.00000",
-		"eye" : "0.00000 0.00000 0.00000",
+		"center" : "-8.25976 12.38964 -1.00000",
+		"eye" : "-8.25976 12.38964 0.00000",
 		"up" : "0.00000 1.00000 0.00000"
 	},
 	"general" : 
@@ -54,8 +54,6 @@
 	"objects" : 
 	[
 		{
-			"castshadow" : false,
-			"clampuvs" : true,
 			"color" : "0.07451 0.07451 0.07451",
 			"disablepropagation" : false,
 			"id" : 277,
@@ -66,8 +64,6 @@
 			"solid" : false
 		},
 		{
-			"castshadow" : false,
-			"clampuvs" : true,
 			"disablepropagation" : false,
 			"effects" : 
 			[
@@ -141,8 +137,6 @@
 			"alignment" : "left",
 			"alpha" : 0.0,
 			"angles" : "0.00000 -0.00000 0.00000",
-			"castshadow" : false,
-			"clampuvs" : true,
 			"color" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2877039332';\n\n// NOTE:\n// Don't forget to make a 'Checkbox' property and connect the 'Tint color' to that new property\n\n// Primary color of the Media Cover\nvar newColor;\n\nvar window = {};\n\nexport var scriptProperties = createScriptProperties()\n    .addCheckbox({\n        name: 'dynamicBar',\n        label: 'Dynamic Bar',\n        value: false\n    })\n    .addColor({\n        name: 'barColor',\n        label: 'Bar Color',\n        value: (window.wallpaperPropertiesListener = {\n                    applyUserProperties: function(properties) {\n                    properties.barcolor;\n                    }\n                })\n    })\n    .finish();\n\n\n/**\n * @param {Vec3} value - for property 'color'\n * @return {Vec3} - update current property value\n */\nexport function update(value) {\n    if (scriptProperties.dynamicBar == true) {\n        value = new Vec3(newColor);\n    } else {\n        // Changes color based on property 'Title Color'\n        value = new Vec3(scriptProperties.barColor);\n    }\n    return value;\n}\n\n/**\n * @param {MediaThumbnailEvent} event\n */\nexport function mediaThumbnailChanged(event) {\n    if (event.hasThumbnail == true) {\n        newColor = event.primaryColor;\n    }\n}\n",
@@ -184,8 +178,6 @@
 		},
 		{
 			"angles" : "0.00000 -0.00000 0.00000",
-			"castshadow" : false,
-			"clampuvs" : true,
 			"disablepropagation" : false,
 			"effects" : 
 			[
@@ -336,17 +328,11 @@
 						"wraploop" : null
 					}
 				},
-				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\nlet mediaDetectionEnabled = false;\n\nexport function applyUserProperties(changedUserProperties) {\n    if (changedUserProperties.togglemediadetection !== undefined) {\n        mediaDetectionEnabled = changedUserProperties.togglemediadetection;\n    }\n}\n\nexport function mediaPlaybackChanged(event) {\n    if (!mediaDetectionEnabled) {\n        previousState = event.state;\n        return;\n    }\n\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    previousState = event.state;\n}\n\nexport function mediaThumbnailChanged(event) {\n    if (mediaDetectionEnabled) {\n        thisObject.getAnimation().play();\n    }\n}",
 				"value" : 1.0
 			},
-			"anchor" : "none",
 			"angles" : "0.00000 -0.00000 0.00000",
-			"backgroundbrightness" : 1.0,
-			"backgroundcolor" : "0.00000 0.00000 0.00000",
 			"blockalign" : true,
-			"castshadow" : false,
-			"clampuvs" : true,
-			"depthtest" : "enabled",
 			"disablepropagation" : false,
 			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
 			"horizontalalign" : "right",
@@ -357,7 +343,6 @@
 			"maxrows" : 1,
 			"maxwidth" : 850.0,
 			"name" : "Song Title",
-			"opaquebackground" : false,
 			"origin" : 
 			{
 				"animation" : 
@@ -493,7 +478,7 @@
 				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : "-320.00000 210.00000 0.00000"
 			},
-			"padding" : 0,
+			"padding" : "0.00000 0.00000",
 			"parallaxDepth" : "0.50000 0.50000",
 			"parent" : 223,
 			"pointsize" : 
@@ -515,7 +500,8 @@
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
-			"size" : "265.00000 58.00000",
+			"size" : "261.00000 58.00000",
+			"spacing" : "0.00000 0.00000",
 			"text" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nvar mediaData = \"\";\n\n/**\n * @param {String} value - for property 'text'\n * @return {String} - update current property value\n */\nexport function update(value) {\n\treturn mediaData;\n}\n\n/**\n * @param {MediaPropertiesEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tmediaData = event.title;\n}\n",
@@ -585,14 +571,8 @@
 				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : 1.0
 			},
-			"anchor" : "none",
 			"angles" : "0.00000 -0.00000 0.00000",
-			"backgroundbrightness" : 1.0,
-			"backgroundcolor" : "0.00000 0.00000 0.00000",
 			"blockalign" : true,
-			"castshadow" : false,
-			"clampuvs" : true,
-			"depthtest" : "enabled",
 			"disablepropagation" : false,
 			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
 			"horizontalalign" : "right",
@@ -603,7 +583,6 @@
 			"maxrows" : 1,
 			"maxwidth" : 850.0,
 			"name" : "Artist",
-			"opaquebackground" : false,
 			"origin" : 
 			{
 				"animation" : 
@@ -739,7 +718,7 @@
 				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
 				"value" : "-320.00000 160.00000 0.00000"
 			},
-			"padding" : 0,
+			"padding" : "0.00000 0.00000",
 			"parallaxDepth" : "0.50000 0.50000",
 			"parent" : 223,
 			"pointsize" : 
@@ -757,7 +736,8 @@
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
-			"size" : "135.00000 48.00000",
+			"size" : "132.00000 48.00000",
+			"spacing" : "0.00000 0.00000",
 			"text" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n// Please note: Do not remove this line or asset references may break.\n\nvar mediaData = \"\";\n\n/**\n * @param {String} value - for property 'text'\n * @return {String} - update current property value\n */\nexport function update(value) {\n\treturn mediaData;\n}\n\n/**\n * @param {MediaPropertiesEvent} event\n */\nexport function mediaPropertiesChanged(event) {\n\tmediaData = event.artist;\n}\n",
@@ -789,70 +769,10 @@
 		{
 			"alpha" : 
 			{
-				"animation" : 
-				{
-					"c0" : 
-					[
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -0.8108108,
-								"y" : -0.0
-							},
-							"frame" : 0,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 1,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 0
-						},
-						{
-							"back" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : -1,
-								"y" : -0.0
-							},
-							"frame" : 23,
-							"front" : 
-							{
-								"enabled" : true,
-								"magic" : true,
-								"x" : 0.8108108,
-								"y" : 0
-							},
-							"lockangle" : true,
-							"locklength" : true,
-							"value" : 1
-						}
-					],
-					"options" : 
-					{
-						"fps" : 60,
-						"length" : 60,
-						"mode" : "single",
-						"parent" : 
-						{
-							"key" : "origin"
-						},
-						"smoothing" : null,
-						"wraploop" : null
-					}
-				},
-				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
+				"script" : "'use strict';\n\nlet mediaDetectionEnabled = false;\nlet fadeElapsed = 0;\nconst fadeDuration = 1.0;\n\nfunction restartFade() {\n    fadeElapsed = 0;\n}\n\nexport function update(value) {\n    if (!mediaDetectionEnabled) {\n        return 0;\n    }\n\n    fadeElapsed = Math.min(fadeElapsed + engine.frametime, fadeDuration);\n    const progress = fadeElapsed / fadeDuration;\n    return progress * progress * (3 - 2 * progress);\n}\n\nexport function applyUserProperties(changedUserProperties) {\n    if (changedUserProperties.togglemediadetection !== undefined) {\n        mediaDetectionEnabled = changedUserProperties.togglemediadetection;\n        if (mediaDetectionEnabled) {\n            restartFade();\n        }\n    }\n}\n\nexport function mediaPlaybackChanged(event) {\n    if (mediaDetectionEnabled && event.state === MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        restartFade();\n    }\n}\n\nexport function mediaThumbnailChanged(event) {\n    if (mediaDetectionEnabled) {\n        restartFade();\n    }\n}",
 				"value" : 0.0
 			},
 			"angles" : "0.00000 -0.00000 0.00000",
-			"castshadow" : false,
-			"clampuvs" : true,
 			"disablepropagation" : false,
 			"effects" : 
 			[
@@ -1020,12 +940,7 @@
 					],
 					"options" : 
 					{
-						"children" : 
-						[
-							{
-								"key" : "alpha"
-							}
-						],
+						"children" : [],
 						"fps" : 60,
 						"length" : 60,
 						"mode" : "single",
@@ -1035,7 +950,7 @@
 					},
 					"relative" : true
 				},
-				"script" : "'use strict';\n\nlet previousState = null;\n\nexport function mediaPlaybackChanged(event) {\n    //console.log(\"I was \", previousState ===  MediaPlaybackEvent.PLAYBACK_PAUSED ? \"\" : \"not \", \"paused\")\n    if (event.state !== MediaPlaybackEvent.PLAYBACK_PAUSED &&\n        !(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)\n        ) {\n        thisObject.getAnimation().play();\n    }\n\n    if (event.state == MediaPlaybackEvent.PLAYBACK_PLAYING) {\n        thisLayer.visible = true;\n    } else if (event.state == MediaPlaybackEvent.PLAYBACK_STOPPED) {\n        thisLayer.visible = false;\n    }\n\n    previousState = event.state\n}\n\nexport function mediaThumbnailChanged(event) {\n\tthisObject.getAnimation().play();\n}",
+				"script" : "'use strict';\n\nlet previousState = null;\nlet mediaVisible = false;\nlet mediaDetectionEnabled = false;\n\nfunction updateVisibility() {\n    thisLayer.visible = mediaDetectionEnabled && mediaVisible;\n}\n\nexport function applyUserProperties(changedUserProperties) {\n    if (changedUserProperties.togglemediadetection !== undefined) {\n        mediaDetectionEnabled = changedUserProperties.togglemediadetection;\n        updateVisibility();\n    }\n}\n\nexport function mediaPlaybackChanged(event) {\n    mediaVisible = event.state !== MediaPlaybackEvent.PLAYBACK_STOPPED;\n    updateVisibility();\n\n    if (!mediaDetectionEnabled || event.state === MediaPlaybackEvent.PLAYBACK_PAUSED) {\n        previousState = event.state;\n        return;\n    }\n\n    if (!(previousState &&\n        previousState === MediaPlaybackEvent.PLAYBACK_PAUSED && \n        event.state === MediaPlaybackEvent.PLAYBACK_PLAYING)) {\n        thisObject.getAnimation().play();\n    }\n\n    previousState = event.state;\n}\n\nexport function mediaThumbnailChanged(event) {\n    if (mediaDetectionEnabled && mediaVisible) {\n        thisObject.getAnimation().play();\n    }\n}",
 				"value" : "-960.00000 120.00000 0.00000"
 			},
 			"parallaxDepth" : "0.50000 0.50000",
@@ -1051,8 +966,7 @@
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
-			"size" : "175.00000 175.00000",
-			"visible" : false
+			"size" : "175.00000 175.00000"
 		},
 		{
 			"disablepropagation" : false,
@@ -1153,14 +1067,7 @@
 				},
 				"value" : 1.0
 			},
-			"anchor" : "none",
 			"angles" : "0.00000 -0.00000 0.00000",
-			"backgroundbrightness" : 1.0,
-			"backgroundcolor" : "0.00000 0.00000 0.00000",
-			"blockalign" : false,
-			"castshadow" : false,
-			"clampuvs" : true,
-			"depthtest" : "enabled",
 			"disablepropagation" : false,
 			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
 			"horizontalalign" : "left",
@@ -1171,7 +1078,6 @@
 			"maxrows" : 1,
 			"maxwidth" : 500.0,
 			"name" : "Clock",
-			"opaquebackground" : false,
 			"origin" : 
 			{
 				"animation" : 
@@ -1324,7 +1230,7 @@
 				},
 				"value" : "520.00000 250.00000 0.00000"
 			},
-			"padding" : 32,
+			"padding" : "32.00000 32.00000",
 			"parallaxDepth" : "0.50000 0.50000",
 			"parent" : 193,
 			"pointsize" : 
@@ -1342,7 +1248,8 @@
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
-			"size" : "376.00000 105.00000",
+			"size" : "369.00000 105.00000",
+			"spacing" : "0.00000 0.00000",
 			"text" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '3030918169';\n\nexport var scriptProperties = createScriptProperties()\n\t// Whether you want a 24h or 12h style format\n\t.addCheckbox({\n\t\tname: 'use24hFormat',\n\t\tlabel: 'ui_editor_properties_use_24h_format',\n\t\tvalue: true\n\t})\n\t// Whether you want to see the seconds or not\n\t.addCheckbox({\n\t\tname: 'showSeconds',\n\t\tlabel: 'ui_editor_properties_show_seconds',\n\t\tvalue: false\n\t})\n\t// This will be used to separate each element\n\t.addText({\n\t\tname: 'delimiter',\n\t\tlabel: 'ui_editor_properties_delimiter',\n\t\tvalue: ':'\n\t})\n\t.finish();\n\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n\tlet time = new Date();\n\tlet hours = time.getHours();\n\tlet ampm = '';\n\n\t// Handle 12-hour format and AM/PM indicator\n\tif (!scriptProperties.use24hFormat) {\n\t\tampm = hours >= 12 ? ' PM' : ' AM';\n\t\thours %= 12;\n\t\tif (hours === 0) {\n\t\t\thours = 12;\n\t\t}\n\t}\n\n\thours = (\"00\" + hours).slice(-2);\n\tlet minutes = (\"00\" + time.getMinutes()).slice(-2);\n\tvalue = hours + scriptProperties.delimiter + minutes;\n\n\tif (scriptProperties.showSeconds) {\n\t\tlet seconds = (\"00\" + time.getSeconds()).slice(-2);\n\t\tvalue += scriptProperties.delimiter + seconds;\n\t}\n\n\t// Append AM/PM if using 12-hour format\n\tif (!scriptProperties.use24hFormat) {\n\t\tvalue += ampm;\n\t}\n\n\treturn value;\n}\n",
@@ -1453,14 +1360,7 @@
 				},
 				"value" : 1.0
 			},
-			"anchor" : "none",
 			"angles" : "0.00000 -0.00000 0.00000",
-			"backgroundbrightness" : 1.0,
-			"backgroundcolor" : "0.00000 0.00000 0.00000",
-			"blockalign" : false,
-			"castshadow" : false,
-			"clampuvs" : true,
-			"depthtest" : "enabled",
 			"disablepropagation" : false,
 			"font" : "fonts/8bitOperatorPlus8-Regular.ttf",
 			"horizontalalign" : "left",
@@ -1471,7 +1371,6 @@
 			"maxrows" : 1,
 			"maxwidth" : 500.0,
 			"name" : "Date",
-			"opaquebackground" : false,
 			"origin" : 
 			{
 				"animation" : 
@@ -1624,7 +1523,7 @@
 				},
 				"value" : "520.00000 70.00000 0.00000"
 			},
-			"padding" : 0,
+			"padding" : "0.00000 0.00000",
 			"parallaxDepth" : "0.50000 0.50000",
 			"parent" : 193,
 			"pointsize" : 
@@ -1642,7 +1541,8 @@
 				},
 				"value" : "1.00000 1.00000 1.00000"
 			},
-			"size" : "207.00000 72.00000",
+			"size" : "202.00000 72.00000",
+			"spacing" : "0.00000 0.00000",
 			"text" : 
 			{
 				"script" : "'use strict';\n// Please note: Do not remove this line or asset references may break.\nexport let __workshopId = '2108644365';\n\nexport var scriptProperties = createScriptProperties()\n  .addText({\n    name: 'dateFormat',\n    label: 'Date Format (e.g. MM/DD/YYYY, Month Day, Year, DD-MM-YY)',\n    value: 'MM/DD/YYYY'\n  })\n  .addCheckbox({\n    name: 'showDay',\n    label: 'Show Day',\n    value: false\n  })\n  .addCheckbox({\n    name: 'alignVertical',\n    label: 'Align Day Vertically',\n    value: false\n  })\n  .finish();\n\n/**\n * @param {String} value (for property 'text')\n */\nexport function update(value) {\n  // Raw user-provided format (default fallback)\n  const rawFormat = (scriptProperties.dateFormat || 'MM/DD/YYYY').toString();\n\n  // Date values\n  const d = new Date();\n  const monthIndex = d.getMonth(); // 0-11\n  const dayIndex = d.getDay(); // 0 = Sunday\n  const dateOfMonth = d.getDate(); // 1..31\n  const yearFull = d.getFullYear().toString();\n  const yearShort = yearFull.slice(-2);\n\n  const monthNumericPad = (monthIndex + 1).toString().padStart(2, '0');\n  const monthNumeric = (monthIndex + 1).toString();\n  const monthAbbrev = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][monthIndex];\n  const monthFull = ['January','February','March','April','May','June','July','August','September','October','November','December'][monthIndex];\n\n  const dayPad = dateOfMonth.toString().padStart(2, '0');\n  const dayNoPad = dateOfMonth.toString();\n\n  const dowAbbrev = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dayIndex];\n  const dowFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dayIndex];\n\n  // Replacement map (keys uppercase)\n  const map = {\n    'YYYY': yearFull,\n    'YEAR': yearFull,\n    'YY': yearShort,\n\n    'MONTH': monthFull,\n    'MON': monthAbbrev,\n    'MM': monthNumericPad,\n    'M': monthNumeric,\n\n    'DAYOFWEEK': dowFull,\n    'DOW': dowAbbrev,\n\n    'DD': dayPad,\n    'DAY': dayNoPad,\n    'D': dayNoPad\n  };\n\n  // Build a single regex that matches any supported token (longer tokens first)\n  const tokenKeys = Object.keys(map).sort((a,b) => b.length - a.length);\n  const tokenRegex = new RegExp(tokenKeys.join('|'), 'gi');\n\n  // First convert escaped newlines \\n -> real newline\n  let result = rawFormat.replace(/\\\\n/gi, '\\n');\n\n  // Single-pass replacement using replacer function — prevents re-replacement inside inserted values\n  result = result.replace(tokenRegex, function(match) {\n    const key = match.toUpperCase();\n    return (key in map) ? map[key] : match;\n  });\n\n  // Prepend day-of-week if requested (keeps original behaviour)\n  if (scriptProperties.showDay) {\n    const separator = scriptProperties.alignVertical ? '\\n' : ' ';\n    result = dowFull + separator + result;\n  }\n\n  return result;\n}\n",
@@ -1715,8 +1615,6 @@
 					"visible" : true
 				}
 			],
-			"castshadow" : false,
-			"clampuvs" : true,
 			"disablepropagation" : false,
 			"effects" : 
 			[
@@ -1919,8 +1817,6 @@
 		},
 		{
 			"angles" : "0.00000 -0.00000 0.00000",
-			"castshadow" : false,
-			"clampuvs" : true,
 			"disablepropagation" : false,
 			"id" : 248,
 			"image" : "models/chair piece.json",
@@ -1955,8 +1851,6 @@
 			}
 		},
 		{
-			"castshadow" : false,
-			"clampuvs" : true,
 			"disablepropagation" : false,
 			"effects" : 
 			[
